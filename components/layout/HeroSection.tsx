@@ -4,6 +4,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const HeroSection: React.FC = () => {
+  const handleScrollToVault = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    document.getElementById('vault')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Abstract Background Effects */}
@@ -37,6 +42,7 @@ const HeroSection: React.FC = () => {
         >
           <a 
             href="#vault"
+            onClick={handleScrollToVault}
             className="group relative inline-flex items-center justify-center gap-3 px-8 py-3 bg-[#030303] text-[#D2B48C] border border-[#8B5A2B]/40 uppercase tracking-[4px] text-xs font-black transition-all duration-700 hover:bg-[#8B5A2B]/10 overflow-hidden"
           >
             {/* Shimmer Effect and Light Corners */}
