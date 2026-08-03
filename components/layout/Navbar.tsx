@@ -197,7 +197,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 top-[70px] bg-[#030303]/95 backdrop-blur-xl z-40 flex flex-col p-6 overflow-y-auto"
+            className="absolute top-full left-0 w-full h-[100dvh] pb-32 bg-[#030303]/95 backdrop-blur-xl z-40 flex flex-col p-6 overflow-y-auto"
           >
             <div className="flex flex-col gap-6 mt-4">
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black text-[#D2B48C] uppercase tracking-widest border-b border-[#8B5A2B]/20 pb-4">
