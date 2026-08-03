@@ -119,7 +119,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className={`absolute inset-0 bg-gradient-to-tr from-[#8B5A2B]/10 to-transparent opacity-0 transition-opacity duration-700 ${isHovered ? 'opacity-100' : ''} pointer-events-none z-10`} />
 
       {/* Image Container */}
-      <a href={`/blog/${product.id}`} onClick={handleNavigate} className="block relative h-80 overflow-hidden border-b border-[#8B5A2B]/20 cursor-pointer bg-[#050505] flex items-center justify-center">
+      <a href={`/blog/${product.id}`} onClick={handleNavigate} className="block relative h-48 md:h-80 overflow-hidden border-b border-[#8B5A2B]/20 cursor-pointer bg-[#050505] flex items-center justify-center">
         <motion.img
           src={product.imageUrl}
           alt={product.name}
@@ -133,16 +133,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       </a>
 
       {/* Content */}
-      <div className="relative p-6 bg-transparent z-10">
+      <div className="relative p-3 md:p-6 bg-transparent z-10">
         <a href={`/blog/${product.id}`} onClick={handleNavigate} className="block cursor-pointer">
-          <h3 className="text-xl font-bold text-[#D2B48C] mb-2 uppercase tracking-wide font-display hover:text-white transition-colors">{product.name}</h3>
+          <h3 className="text-sm md:text-xl font-bold text-[#D2B48C] mb-1 md:mb-2 uppercase tracking-wide font-display hover:text-white transition-colors">{product.name}</h3>
         </a>
-        <p className="text-[#808080] text-sm mb-6 line-clamp-2 font-light tracking-wide">{product.description}</p>
+        <p className="text-[#808080] text-[10px] md:text-sm mb-3 md:mb-6 line-clamp-1 md:line-clamp-2 font-light tracking-wide">{product.description}</p>
 
         {/* Explore Button */}
-        <div className="mt-8">
-          <a href={`/blog/${product.id}`} onClick={handleNavigate} className="block w-full py-3 text-center border border-[#8B5A2B]/40 text-[#8B5A2B] text-xs uppercase tracking-[4px] font-bold hover:bg-[#8B5A2B] hover:text-[#030303] transition-all duration-300 relative overflow-hidden group/btn cursor-pointer">
-            <span className="relative z-10">UNVEIL THE SECRET</span>
+        <div className="mt-4 md:mt-8">
+          <a href={`/blog/${product.id}`} onClick={handleNavigate} className="block w-full py-2 md:py-3 text-center border border-[#8B5A2B]/40 text-[#8B5A2B] text-[9px] md:text-xs uppercase tracking-[1px] md:tracking-[4px] font-bold hover:bg-[#8B5A2B] hover:text-[#030303] transition-all duration-300 relative overflow-hidden group/btn cursor-pointer">
+            <span className="relative z-10 hidden md:inline">UNVEIL THE SECRET</span>
+            <span className="relative z-10 md:hidden">UNVEIL</span>
             <div className="absolute inset-0 bg-[#8B5A2B] transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-500 ease-out z-0"></div>
           </a>
         </div>
