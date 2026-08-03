@@ -130,7 +130,12 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
 
                         showContent && (
 
-                            <>
+                            <motion.div 
+                                className="flex flex-col items-center w-full"
+                                initial={{ opacity: 1 }}
+                                animate={{ opacity: transition ? 0 : 1, scale: transition ? 0.9 : 1 }}
+                                transition={{ duration: 0.3 }}
+                            >
 
                                 <motion.p
 
@@ -205,7 +210,7 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
                                     </svg>
                                 </motion.button>
 
-                            </>
+                            </motion.div>
 
                         )
 

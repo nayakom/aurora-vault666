@@ -14,17 +14,19 @@ export default function IntroTransition({
             {active && (
                 <motion.div
                     initial={{ 
-                        opacity: 0,
+                        clipPath: "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)",
+                        WebkitClipPath: "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)",
                         backgroundColor: "#8B5A2B"
                     }}
                     animate={{ 
-                        opacity: 1,
+                        clipPath: "polygon(50% -150%, 250% 50%, 50% 250%, -150% 50%)",
+                        WebkitClipPath: "polygon(50% -150%, 250% 50%, 50% 250%, -150% 50%)",
                         backgroundColor: "#030303"
                     }}
                     exit={{ opacity: 0 }}
                     transition={{ 
                         duration: 1.2, 
-                        ease: "easeInOut"
+                        ease: [0.76, 0, 0.24, 1] 
                     }}
                     className="fixed inset-0 z-[9999] pointer-events-none flex items-center justify-center"
                 >
