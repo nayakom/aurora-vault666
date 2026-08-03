@@ -17,12 +17,12 @@ export default function IntroTransition({
                         clipPath: "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)",
                         WebkitClipPath: "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)",
                         backgroundColor: "#8B5A2B"
-                    }}
+                    } as any}
                     animate={{ 
                         clipPath: "polygon(50% -150%, 250% 50%, 50% 250%, -150% 50%)",
                         WebkitClipPath: "polygon(50% -150%, 250% 50%, 50% 250%, -150% 50%)",
                         backgroundColor: "#030303"
-                    }}
+                    } as any}
                     exit={{ opacity: 0 }}
                     transition={{ 
                         duration: 1.2, 
