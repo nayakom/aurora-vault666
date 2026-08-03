@@ -15,10 +15,10 @@ const Footer: React.FC<FooterProps> = ({ compact = false }) => {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {!compact && (
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 mb-16 justify-items-center md:justify-items-start">
 
             {/* Brand Section */}
-            <div className="md:col-span-12 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
+            <div className="flex flex-col items-center md:items-start text-center md:text-left">
               <Logo className="mb-6 scale-110" />
               <p className="text-[#808080] text-sm tracking-widest leading-relaxed mb-6 italic max-w-sm">
                 "Only the chosen ones enter The Vault."
@@ -29,7 +29,7 @@ const Footer: React.FC<FooterProps> = ({ compact = false }) => {
             </div>
 
             {/* Navigation */}
-            <div className="md:col-span-4 lg:col-span-2 flex flex-col items-center lg:items-start">
+            <div className="flex flex-col items-center md:items-start w-full md:pl-16">
               <h4 className="text-white font-black uppercase tracking-widest mb-6 border-b border-[#8B5A2B]/30 pb-2">The Vault</h4>
               <ul className="flex flex-col gap-4 text-[#808080] text-sm font-medium tracking-wide">
                 <li><Link href="/" className="hover:text-[#D2B48C] transition-colors">Home</Link></li>
@@ -41,29 +41,8 @@ const Footer: React.FC<FooterProps> = ({ compact = false }) => {
               </ul>
             </div>
 
-            {/* Newsletter / Inner Circle */}
-            <div className="md:col-span-8 lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
-              <h4 className="text-white font-black uppercase tracking-widest mb-6 border-b border-[#8B5A2B]/30 pb-2">The Inner Circle</h4>
-              <p className="text-[#808080] text-sm tracking-wide mb-6">
-                Subscribe to receive encrypted transmissions about rare artifacts before they are unveiled to the public.
-              </p>
-              <form className="w-full relative group">
-                <input
-                  type="email"
-                  placeholder="Enter your email..."
-                  className="w-full bg-[#0a0a0a] border border-[#8B5A2B]/30 text-[#D2B48C] px-4 py-3 outline-none focus:border-[#8B5A2B] transition-colors font-mono text-sm placeholder:text-[#808080]/50"
-                />
-                <button
-                  type="button"
-                  className="absolute right-0 top-0 bottom-0 px-6 bg-[#8B5A2B]/10 text-[#8B5A2B] border-l border-[#8B5A2B]/30 hover:bg-[#8B5A2B] hover:text-[#030303] uppercase tracking-widest text-xs font-black transition-all"
-                >
-                  Join
-                </button>
-              </form>
-            </div>
-
             {/* Social */}
-            <div className="md:col-span-12 lg:col-span-2 flex flex-col items-center lg:items-end">
+            <div className="flex flex-col items-center md:items-start lg:items-end w-full">
               <h4 className="text-white font-black uppercase tracking-widest mb-6 border-b border-[#8B5A2B]/30 pb-2 lg:border-none">Network</h4>
               <div className="flex gap-4">
                 <a href="#" className="w-10 h-10 flex items-center justify-center rounded-full bg-[#0a0a0a] border border-[#8B5A2B]/30 text-[#8B5A2B] hover:bg-[#8B5A2B] hover:text-[#030303] transition-all transform hover:scale-110">
