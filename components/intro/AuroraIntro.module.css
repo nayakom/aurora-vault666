@@ -1,0 +1,188 @@
+.intro {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    background-color: var(--color-aurora-bg);
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(3, 3, 3, 0.9) 100%);
+    z-index: 1;
+}
+
+.content {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Illuminati Triangle Background */
+.geometricContainer {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.4;
+    animation: slowPulse 8s ease-in-out infinite alternate;
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 30vw solid transparent;
+    border-right: 30vw solid transparent;
+    border-bottom: 50vw solid rgba(210, 180, 140, 0.4);
+    filter: drop-shadow(0 0 80px rgba(139, 90, 43, 0.8));
+}
+
+/* ===========================
+        LOGO
+=========================== */
+
+.title {
+    position: relative;
+    font-size: clamp(72px, 10vw, 170px);
+    font-weight: 900;
+    letter-spacing: 24px;
+    margin: 0;
+    color: var(--color-aurora-gold);
+    text-transform: uppercase;
+    user-select: none;
+    font-family: var(--font-display);
+    text-shadow:
+        0 0 10px rgba(139, 90, 43, 0.2),
+        0 0 40px rgba(139, 90, 43, 0.4),
+        0 0 100px rgba(139, 90, 43, 0.1);
+    animation:
+        logoGlow 4s ease-in-out infinite,
+        logoFloat 6s ease-in-out infinite;
+}
+
+/* ===========================
+        TAGLINE
+=========================== */
+
+.tagline {
+    margin-top: 28px;
+    font-size: 20px;
+    line-height: 2;
+    color: var(--color-aurora-gold-light);
+    letter-spacing: 4px;
+    max-width: 700px;
+    text-transform: uppercase;
+    font-weight: 300;
+}
+
+/* ===========================
+        BUTTON
+=========================== */
+
+.enterButton {
+    margin-top: 60px;
+    padding: 16px 64px;
+    border-radius: 4px;
+    border: 1px solid rgba(139, 90, 43, 0.3);
+    cursor: pointer;
+    color: var(--color-aurora-gold);
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    backdrop-filter: blur(10px);
+    background: rgba(10, 10, 10, 0.6);
+    box-shadow:
+        0 0 30px rgba(139, 90, 43, 0.1),
+        inset 0 0 15px rgba(139, 90, 43, 0.05);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.enterButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(139, 90, 43, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.enterButton:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 0 50px rgba(139, 90, 43, 0.3),
+        inset 0 0 20px rgba(139, 90, 43, 0.1);
+    border-color: rgba(139, 90, 43, 0.8);
+    color: #fff;
+}
+
+.enterButton:hover::before {
+    left: 100%;
+}
+
+.enterButton:active {
+    transform: scale(0.98);
+}
+
+/* ===========================
+      ANIMATIONS
+=========================== */
+
+@keyframes slowPulse {
+    0% { opacity: 0.1; transform: scale(0.95); }
+    100% { opacity: 0.25; transform: scale(1.05); }
+}
+
+@keyframes logoGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 10px rgba(139, 90, 43, 0.2),
+            0 0 30px rgba(139, 90, 43, 0.3);
+    }
+    50% {
+        text-shadow:
+            0 0 20px rgba(139, 90, 43, 0.4),
+            0 0 60px rgba(139, 90, 43, 0.6),
+            0 0 120px rgba(139, 90, 43, 0.2);
+    }
+}
+
+@keyframes logoFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@media(max-width:768px) {
+    .title {
+        letter-spacing: 12px;
+        font-size: 50px;
+    }
+    .tagline {
+        font-size: 14px;
+        padding: 0 24px;
+        letter-spacing: 2px;
+    }
+    .enterButton {
+        width: 80%;
+        max-width: 300px;
+        padding: 16px 20px;
+    }
+}
