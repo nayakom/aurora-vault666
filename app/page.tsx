@@ -66,7 +66,9 @@ export default function Home() {
               <Navbar onHomeClick={() => setShowMainSite(false)} />
               <HeroSection />
               <Suspense fallback={<div className="text-center py-20 text-[#D2B48C]">Loading Vault...</div>}>
-                <ProductGrid />
+                <div id="vault" className="scroll-mt-20">
+                  <ProductGrid />
+                </div>
               </Suspense>
               <Footer />
             </div>

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 import Logo from '../ui/Logo';
 
 interface NavbarProps {
@@ -29,12 +30,35 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const router = useRouter();
+  const pathname = usePathname();
+
   const handleHomeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
     setIsMobileMenuOpen(false); // Close mobile menu if open
-    if (window.scrollY > 50) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (pathname === '/') {
+      const hasCategory = window.location.search.includes('category=');
+      const isAtVault = window.scrollY > 200;
+
+      if (hasCategory) {
+        // Clear filter and scroll to Vault
+        router.push('/', { scroll: false });
+        setTimeout(() => {
+          document.getElementById('vault')?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        if (isAtVault) {
+          // If already at vault without filter, go to top
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          // If at top without filter, go to vault
+          document.getElementById('vault')?.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
     } else {
-      if (onHomeClick) onHomeClick();
+      // If on another page (like product details), go back to Vault
+      router.push('/#vault');
     }
   };
 
