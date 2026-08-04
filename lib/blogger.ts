@@ -26,7 +26,7 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
     }
 
     const data = await res.json();
-    
+
     if (!data.items || data.items.length === 0) {
       return [];
     }
@@ -62,18 +62,18 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
       // 3. Extract Description and Usage
       // We'll split the content by paragraphs or breaks to find text
       let textContent = post.content.replace(/<[^>]*>?/gm, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
-      
+
       let description = textContent;
       let usage = "";
 
       // If user specifically typed "Usage:" we can try to extract it
       if (textContent.includes('Usage:')) {
-         const parts = textContent.split('Usage:');
-         description = parts[0].trim();
-         usage = parts[1].trim();
+        const parts = textContent.split('Usage:');
+        description = parts[0].trim();
+        usage = parts[1].trim();
       } else {
-         // If no Usage, split in half roughly or just use full as description
-         description = textContent;
+        // If no Usage, split in half roughly or just use full as description
+        description = textContent;
       }
 
       // 4. Parse Affiliate Links and generate realistic premium ratings
@@ -84,17 +84,15 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
         const url = match[1].toLowerCase();
         const text = match[2].toLowerCase();
         
-        if (url.includes('amazon.') || url.includes('amzn.to') || text.includes('amazon')) {
-            affiliates.amazon = { platform: "Amazon", url: match[1], rating: 4.8, reviews: 2450 };
-        }
-        if (url.includes('flipkart.') || url.includes('fkrt.it') || text.includes('flipkart')) {
-            affiliates.flipkart = { platform: "Flipkart", url: match[1], rating: 4.6, reviews: 1820 };
-        }
-        if (url.includes('meesho.') || text.includes('meesho')) {
-            affiliates.meesho = { platform: "Meesho", url: match[1], rating: 4.4, reviews: 3100 };
-        }
-        if (url.includes('myntra.') || text.includes('myntra')) {
-            affiliates.myntra = { platform: "Myntra", url: match[1], rating: 4.7, reviews: 920 };
+        if (text.includes('amazon') || url.includes('amazon.') || url.includes('amzn.to')) {
+          affiliates.amazon = { platform: "Amazon", url: match[1], rating: 4.8, reviews: 2450 };
+        } else if (text.includes('myntra') || url.includes('myntra.')) {
+          affiliates.myntra = { platform: "Myntra", url: match[1], rating: 4.7, reviews: 920 };
+        } else if (text.includes('meesho') || url.includes('meesho.')) {
+          affiliates.meesho = { platform: "Meesho", url: match[1], rating: 4.4, reviews: 3100 };
+        } else if (text.includes('flipkart') || url.includes('flipkart.') || url.includes('ekaro.in')) {
+          // Fallback to Flipkart for generic ekaro links if text doesn't specify
+          affiliates.flipkart = { platform: "Flipkart", url: match[1], rating: 4.6, reviews: 1820 };
         }
       }
 
