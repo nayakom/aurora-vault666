@@ -111,18 +111,21 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
             {/* Description & Usage */}
             <div className="mb-10 relative">
-              <Accordion title="Top Highlights" defaultOpen={true}>
+              <div className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-[#8B5A2B]/50 to-transparent hidden md:block"></div>
+              <h3 className="text-[10px] font-mono text-[#8B5A2B] uppercase tracking-[0.2em] mb-4 flex items-center gap-4">
+                <span>[ PURPOSE ]</span>
+                <span className="h-px bg-[#8B5A2B]/30 flex-grow"></span>
+              </h3>
+              <div 
+                className="text-[#808080] text-sm font-light leading-relaxed mb-6 prose prose-invert prose-p:mb-4 prose-sm"
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
+              {product.usage && (
                 <div 
-                  className="text-[#808080] text-sm font-light leading-relaxed mb-6 prose prose-invert prose-p:mb-4 prose-sm"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
+                  className="text-[#D2B48C] text-sm leading-relaxed prose prose-invert italic border-l border-[#8B5A2B]/30 pl-4 py-2 bg-[#8B5A2B]/5"
+                  dangerouslySetInnerHTML={{ __html: product.usage }}
                 />
-                {product.usage && (
-                  <div 
-                    className="text-[#D2B48C] text-sm leading-relaxed prose prose-invert italic border-l border-[#8B5A2B]/30 pl-4 py-2 bg-[#8B5A2B]/5"
-                    dangerouslySetInnerHTML={{ __html: product.usage }}
-                  />
-                )}
-              </Accordion>
+              )}
             </div>
           </div>
         </div>
