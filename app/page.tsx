@@ -25,9 +25,15 @@ export default function Home() {
       const isSoftNav = isSpaInitialized;
       isSpaInitialized = true;
 
-      // Only skip the intro if we are returning from a product page (soft navigation) AND it's not a hard refresh
-      if (isSoftNav && window.location.hash === '#vault') {
+      const hasFilters = window.location.search.includes('category=') || window.location.search.includes('q=');
+      // Skip the intro if we are returning from another page (soft navigation), or if accessing a specific filter/hash
+      if (isSoftNav || hasFilters || window.location.hash === '#vault') {
         setShowMainSite(true);
+        if (hasFilters || window.location.hash === '#vault') {
+          setTimeout(() => {
+            document.getElementById('vault')?.scrollIntoView({ behavior: 'smooth' });
+          }, 300); // slightly longer timeout to ensure layout is ready
+        }
       }
     }
   }, []);
