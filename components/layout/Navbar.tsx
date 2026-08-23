@@ -89,7 +89,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
         <Logo onClick={handleHomeClick} />
 
         {/* Links */}
-        <div className="hidden md:flex gap-8 items-center mt-2">
+        <div className="hidden md:flex gap-5 items-center mt-2">
 
           <Link href="/" onClick={handleHomeClick} className="text-[#808080] hover:text-[#8B5A2B] text-sm uppercase tracking-widest font-bold transition-all duration-300">
             HOME
@@ -101,7 +101,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
               href="#"
               className="text-[#808080] group-hover:text-[#8B5A2B] text-sm uppercase tracking-widest font-bold transition-all duration-300 flex items-center gap-1 py-4"
             >
-              WOMEN <span className="text-[10px]">▼</span>
+              WOMEN
             </a>
 
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
@@ -125,7 +125,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
               href="#"
               className="text-[#808080] group-hover:text-[#8B5A2B] text-sm uppercase tracking-widest font-bold transition-all duration-300 flex items-center gap-1 py-4"
             >
-              MEN <span className="text-[10px]">▼</span>
+              MEN
             </a>
 
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
@@ -149,7 +149,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
               href="#"
               className="text-[#808080] group-hover:text-[#8B5A2B] text-sm uppercase tracking-widest font-bold transition-all duration-300 flex items-center gap-1 py-4"
             >
-              GYM & SPORTS <span className="text-[10px]">▼</span>
+              GYM & SPORTS
             </a>
 
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
@@ -173,7 +173,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
               href="#"
               className="text-[#808080] group-hover:text-[#8B5A2B] text-sm uppercase tracking-widest font-bold transition-all duration-300 flex items-center gap-1 py-4"
             >
-              ACCESSORIES <span className="text-[10px]">▼</span>
+              ACCESSORIES
             </a>
 
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
@@ -197,7 +197,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
               href="#"
               className="text-[#808080] group-hover:text-[#8B5A2B] text-sm uppercase tracking-widest font-bold transition-all duration-300 flex items-center gap-1 py-4"
             >
-              ELECTRONICS <span className="text-[10px]">▼</span>
+              ELECTRONICS
             </a>
 
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
