@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { getProductsFromBlogger } from "@/lib/blogger";
 import ProductGallery from "@/components/product/ProductGallery";
 import IlluminatiEye from "@/components/layout/IlluminatiEye";
+import Navbar from "@/components/layout/Navbar";
 import Accordion from "@/components/ui/Accordion";
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -43,6 +44,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="min-h-screen bg-[#030303] text-[#D2B48C] font-sans selection:bg-[#8B5A2B]/40 relative">
+      <Navbar />
       
       <div className="fixed inset-0 overflow-hidden pointer-events-none opacity-[0.02] bg-[radial-gradient(circle_at_center,_#8B5A2B_0%,_transparent_100%)]"></div>
 
