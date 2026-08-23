@@ -58,16 +58,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-24">
         
-        {/* Top Secret Barcode / Header */}
-        <div className="flex justify-between items-end border-b border-[#8B5A2B]/20 pb-4 mb-12">
-          <Link 
-            href="/#vault"
-            className="inline-flex items-center text-xs uppercase tracking-[4px] text-[#8B5A2B] hover:text-[#D2B48C] transition-colors group font-mono"
-          >
-            <span className="mr-3 transform group-hover:-translate-x-2 transition-transform">←</span>
-            Return to Vault
-          </Link>
-        </div>
+
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-start">
           
