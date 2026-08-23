@@ -56,9 +56,14 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       {/* Decorative top border */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#8B5A2B]/50 to-transparent"></div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-24">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-36 lg:pt-48 pb-24">
         
-
+        {/* Premium Breadcrumb / Section Header */}
+        <div className="flex items-center gap-4 mb-12 opacity-80">
+          <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#8B5A2B]"></div>
+          <span className="text-[10px] font-mono text-[#D2B48C] tracking-[0.4em] uppercase">Vault Data / Artifact File</span>
+          <div className="h-[1px] flex-grow bg-gradient-to-l from-transparent via-[#8B5A2B]/30 to-[#8B5A2B]"></div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-start">
           
