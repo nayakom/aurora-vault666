@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { getProductsFromBlogger } from "@/lib/blogger";
 import ProductGallery from "@/components/product/ProductGallery";
 import IlluminatiEye from "@/components/layout/IlluminatiEye";
+import Accordion from "@/components/ui/Accordion";
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const dynamic = 'force-dynamic';
@@ -72,22 +73,18 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           <div className="flex flex-col gap-16 w-full max-w-md mx-auto lg:mx-0">
             <ProductGallery images={product.images} productName={product.name} />
             
-            {/* Specifications (Moved under image) */}
-            {product.specifications && (
-              <div className="relative">
-                <h3 className="text-xs font-mono text-[#8B5A2B] uppercase tracking-[0.3em] mb-4 flex items-center gap-4">
-                  <span>[ CLASSIFICATION DATA ]</span>
-                  <span className="h-px bg-[#8B5A2B]/30 flex-grow"></span>
-                </h3>
-                <div className="border border-[#8B5A2B]/20 bg-[#050505] divide-y divide-[#8B5A2B]/10 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)]">
+            {/* Specifications Accordion */}
+            {product.specifications && Object.keys(product.specifications).length > 0 && (
+              <Accordion title="Product Details" defaultOpen={true}>
+                <div className="divide-y divide-[#8B5A2B]/10">
                   {Object.entries(product.specifications).map(([key, value]) => (
-                    <div key={key} className="flex flex-col py-4 px-6 hover:bg-[#8B5A2B]/5 transition-colors">
-                      <span className="w-full text-[#808080] font-mono text-xs tracking-widest uppercase mb-1">{key}</span>
-                      <span className="w-full text-white font-light">{value}</span>
+                    <div key={key} className="flex flex-col sm:flex-row py-4 px-6 hover:bg-[#8B5A2B]/5 transition-colors gap-2 sm:gap-6">
+                      <span className="w-full sm:w-1/3 text-[#808080] font-bold text-sm tracking-wide capitalize">{key}</span>
+                      <span className="w-full sm:w-2/3 text-[#D2B48C] font-light text-sm">{value as string}</span>
                     </div>
                   ))}
                 </div>
-              </div>
+              </Accordion>
             )}
           </div>
 
@@ -114,21 +111,18 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
             {/* Description & Usage */}
             <div className="mb-10 relative">
-              <div className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-[#8B5A2B]/50 to-transparent hidden md:block"></div>
-              <h3 className="text-[10px] font-mono text-[#8B5A2B] uppercase tracking-[0.2em] mb-4 flex items-center gap-4">
-                <span>[ PURPOSE ]</span>
-                <span className="h-px bg-[#8B5A2B]/30 flex-grow"></span>
-              </h3>
-              <div 
-                className="text-[#808080] text-sm font-light leading-relaxed mb-6 prose prose-invert prose-p:mb-4 prose-sm"
-                dangerouslySetInnerHTML={{ __html: product.description }}
-              />
-              {product.usage && (
+              <Accordion title="Top Highlights" defaultOpen={true}>
                 <div 
-                  className="text-[#D2B48C] text-sm leading-relaxed prose prose-invert italic border-l border-[#8B5A2B]/30 pl-4 py-2 bg-[#8B5A2B]/5"
-                  dangerouslySetInnerHTML={{ __html: product.usage }}
+                  className="text-[#808080] text-sm font-light leading-relaxed mb-6 prose prose-invert prose-p:mb-4 prose-sm"
+                  dangerouslySetInnerHTML={{ __html: product.description }}
                 />
-              )}
+                {product.usage && (
+                  <div 
+                    className="text-[#D2B48C] text-sm leading-relaxed prose prose-invert italic border-l border-[#8B5A2B]/30 pl-4 py-2 bg-[#8B5A2B]/5"
+                    dangerouslySetInnerHTML={{ __html: product.usage }}
+                  />
+                )}
+              </Accordion>
             </div>
           </div>
         </div>
