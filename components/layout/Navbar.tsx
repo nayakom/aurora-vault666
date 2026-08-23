@@ -105,11 +105,11 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
             </a>
 
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-              <div className="bg-white rounded-xl p-6 w-48 shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-gray-100">
+              <div className="bg-[#030303]/95 backdrop-blur-md rounded-xl p-6 w-48 shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-[#8B5A2B]/20">
                 <ul className="flex flex-col gap-6">
                   {['Kurtis', 'Dresses', 'Tops', 'Sarees', 'Bottom Wear'].map((cat) => (
                     <li key={cat}>
-                      <Link href={`/?category=${cat}`} scroll={false} className="text-gray-800 hover:text-[#8B5A2B] text-[15px] font-medium tracking-wide transition-colors block">
+                      <Link href={`/?category=${cat}`} scroll={false} className="text-[#808080] hover:text-[#8B5A2B] text-[15px] font-medium tracking-wide transition-colors block">
                         {cat}
                       </Link>
                     </li>
@@ -129,11 +129,11 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
             </a>
 
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-              <div className="bg-white rounded-xl p-6 w-48 shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-gray-100">
+              <div className="bg-[#030303]/95 backdrop-blur-md rounded-xl p-6 w-48 shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-[#8B5A2B]/20">
                 <ul className="flex flex-col gap-6">
                   {['Shirts', 'T-Shirts', 'Jeans', 'Footwear'].map((cat) => (
                     <li key={cat}>
-                      <Link href={`/?category=${cat}`} scroll={false} className="text-gray-800 hover:text-[#8B5A2B] text-[15px] font-medium tracking-wide transition-colors block">
+                      <Link href={`/?category=${cat}`} scroll={false} className="text-[#808080] hover:text-[#8B5A2B] text-[15px] font-medium tracking-wide transition-colors block">
                         {cat}
                       </Link>
                     </li>
@@ -153,11 +153,11 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
             </a>
 
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-              <div className="bg-white rounded-xl p-6 w-56 shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-gray-100">
+              <div className="bg-[#030303]/95 backdrop-blur-md rounded-xl p-6 w-56 shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-[#8B5A2B]/20">
                 <ul className="flex flex-col gap-6">
                   {['Men\'s Gym Wear', 'Women\'s Gym Wear', 'Equipments'].map((cat) => (
                     <li key={cat}>
-                      <Link href={`/?category=${cat}`} scroll={false} className="text-gray-800 hover:text-[#8B5A2B] text-[15px] font-medium tracking-wide transition-colors block">
+                      <Link href={`/?category=${cat}`} scroll={false} className="text-[#808080] hover:text-[#8B5A2B] text-[15px] font-medium tracking-wide transition-colors block">
                         {cat}
                       </Link>
                     </li>
@@ -177,11 +177,11 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
             </a>
 
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-              <div className="bg-white rounded-xl p-6 w-48 shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-gray-100">
+              <div className="bg-[#030303]/95 backdrop-blur-md rounded-xl p-6 w-48 shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-[#8B5A2B]/20">
                 <ul className="flex flex-col gap-6">
                   {['Watches', 'Bags'].map((cat) => (
                     <li key={cat}>
-                      <Link href={`/?category=${cat}`} scroll={false} className="text-gray-800 hover:text-[#8B5A2B] text-[15px] font-medium tracking-wide transition-colors block">
+                      <Link href={`/?category=${cat}`} scroll={false} className="text-[#808080] hover:text-[#8B5A2B] text-[15px] font-medium tracking-wide transition-colors block">
                         {cat}
                       </Link>
                     </li>
@@ -201,11 +201,11 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
             </a>
 
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-              <div className="bg-white rounded-xl p-6 w-56 shadow-[0_10px_40px_rgba(0,0,0,0.15)] border border-gray-100">
+              <div className="bg-[#030303]/95 backdrop-blur-md rounded-xl p-6 w-56 shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-[#8B5A2B]/20">
                 <ul className="flex flex-col gap-6">
                   {['Laptops', 'PC', 'Keyboard', 'Mouse', 'TV', 'Phones', 'Smart Phones'].map((cat) => (
                     <li key={cat}>
-                      <Link href={`/?category=${cat}`} scroll={false} className="text-gray-800 hover:text-[#8B5A2B] text-[15px] font-medium tracking-wide transition-colors block">
+                      <Link href={`/?category=${cat}`} scroll={false} className="text-[#808080] hover:text-[#8B5A2B] text-[15px] font-medium tracking-wide transition-colors block">
                         {cat}
                       </Link>
                     </li>
