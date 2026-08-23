@@ -14,6 +14,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [expandedMobileCategory, setExpandedMobileCategory] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const categoriesData = [
     { name: 'Women', items: ['Kurtis', 'Dresses', 'Tops', 'Sarees', 'Bottom Wear'] },
@@ -59,6 +60,17 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
     } else {
       // If on another page (like product details), go back to Vault
       router.push('/#vault');
+    }
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      setIsMobileMenuOpen(false);
+      router.push(`/?q=${encodeURIComponent(searchQuery.trim())}`, { scroll: false });
+      setTimeout(() => {
+        document.getElementById('vault')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     }
   };
 
@@ -200,6 +212,23 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
               </div>
             </div>
           </div>
+          
+          {/* Desktop Search Bar */}
+          <form onSubmit={handleSearch} className="relative ml-4">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-[#030303]/50 border border-[#8B5A2B]/30 text-[#D2B48C] placeholder-[#808080] text-sm px-4 py-1.5 rounded-full focus:outline-none focus:border-[#8B5A2B] transition-colors w-40 focus:w-56"
+            />
+            <button type="submit" className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B5A2B]">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </form>
         </div>
 
         {/* Mobile Hamburger Toggle */}
@@ -227,6 +256,23 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black text-[#D2B48C] uppercase tracking-widest border-b border-[#8B5A2B]/20 pb-4">
                 HOME
               </Link>
+              
+              {/* Mobile Search Bar */}
+              <form onSubmit={handleSearch} className="relative w-full mb-2">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-[#030303]/50 border border-[#8B5A2B]/30 text-[#D2B48C] placeholder-[#808080] text-sm px-4 py-3 rounded-lg focus:outline-none focus:border-[#8B5A2B] transition-colors"
+                />
+                <button type="submit" className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8B5A2B]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                </button>
+              </form>
               
               {categoriesData.map((category) => (
                 <div key={category.name} className="flex flex-col border-b border-[#8B5A2B]/20">
