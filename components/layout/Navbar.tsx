@@ -39,11 +39,12 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
     setIsMobileMenuOpen(false); // Close mobile menu if open
 
     if (pathname === '/') {
-      const hasCategory = window.location.search.includes('category=');
+      const hasFilters = window.location.search.includes('category=') || window.location.search.includes('q=');
       const isAtVault = window.scrollY > 200;
 
-      if (hasCategory) {
+      if (hasFilters) {
         // Clear filter and scroll to Vault
+        setSearchQuery('');
         router.push('/', { scroll: false });
         setTimeout(() => {
           document.getElementById('vault')?.scrollIntoView({ behavior: 'smooth' });
@@ -59,6 +60,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
       }
     } else {
       // If on another page (like product details), go back to Vault
+      setSearchQuery('');
       router.push('/#vault');
     }
   };
@@ -253,7 +255,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
             className="absolute top-full left-0 w-full h-[100dvh] pb-32 bg-[#030303]/95 backdrop-blur-xl z-40 flex flex-col p-6 overflow-y-auto"
           >
             <div className="flex flex-col gap-6 mt-4">
-              <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-2xl font-black text-[#D2B48C] uppercase tracking-widest border-b border-[#8B5A2B]/20 pb-4">
+              <Link href="/" onClick={handleHomeClick} className="text-2xl font-black text-[#D2B48C] uppercase tracking-widest border-b border-[#8B5A2B]/20 pb-4">
                 HOME
               </Link>
               
