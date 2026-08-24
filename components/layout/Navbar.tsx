@@ -19,6 +19,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
   const categoriesData = [
     { name: 'Women', items: ['Kurtis', 'Dresses', 'Tops', 'Sarees', 'Bottom Wear'] },
     { name: 'Men', items: ['Shirts', 'T-Shirts', 'Jeans', 'Footwear'] },
+    { name: 'Gym & Sports', items: ['Men\'s Gym Wear', 'Women\'s Gym Wear', 'Equipments'] },
     { name: 'Accessories', items: ['Watches', 'Bags'] },
     { name: 'Electronics', items: ['Laptops', 'PC', 'Keyboard', 'Mouse', 'Phones'] },
   ];
