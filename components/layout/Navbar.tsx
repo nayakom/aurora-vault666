@@ -271,7 +271,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
               <form onSubmit={handleSearch} className="relative w-full mb-2">
                 <input
                   type="text"
-                  placeholder="Search products..."
+                  placeholder="Search Vault..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full bg-[#030303]/50 border border-[#8B5A2B]/30 text-[#D2B48C] placeholder-[#808080] text-sm px-4 py-3 rounded-lg focus:outline-none focus:border-[#8B5A2B] transition-colors"
