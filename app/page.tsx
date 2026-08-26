@@ -40,14 +40,17 @@ export default function Home() {
 
   const handleIntroComplete = () => {
     setShowMainSite(true);
-    router.replace('/#vault', { scroll: false });
+    // Smoothly scroll without triggering a Next.js soft navigation which causes mobile flicker
+    setTimeout(() => {
+      document.getElementById('vault')?.scrollIntoView({ behavior: 'auto' });
+    }, 50);
   };
 
   if (!mounted) return <main className="min-h-screen bg-[#030303]" />; // Prevent hydration mismatch flash
 
   return (
     <main className="min-h-screen bg-[var(--color-aurora-bg)] text-[var(--color-aurora-text)] selection:bg-[#8B5A2B] selection:text-[#000]">
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {!showMainSite ? (
           <motion.div
             key="intro"
