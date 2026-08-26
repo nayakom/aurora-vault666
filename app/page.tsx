@@ -40,10 +40,8 @@ export default function Home() {
 
   const handleIntroComplete = () => {
     setShowMainSite(true);
-    // Smoothly scroll without triggering a Next.js soft navigation which causes mobile flicker
-    setTimeout(() => {
-      document.getElementById('vault')?.scrollIntoView({ behavior: 'auto' });
-    }, 50);
+    // User wants to stay at the very top of the page (Hero Section) after the intro
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   if (!mounted) return <main className="min-h-screen bg-[#030303]" />; // Prevent hydration mismatch flash
