@@ -23,36 +23,29 @@ const Logo: React.FC<LogoProps> = ({ className = '', onClick }) => {
           fill="none" 
           className="w-full h-full text-[#8B5A2B] group-hover:text-[#D2B48C] transition-colors duration-500 relative z-10"
         >
-          {/* Main Triangle */}
-          <path d="M50 5 L5 90 L95 90 Z" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+          {/* Subtle Sacred Geometry Lines (Background) */}
+          <circle cx="50" cy="50" r="45" stroke="currentColor" strokeWidth="1" className="opacity-20" />
+          <path d="M5 50 L95 50" stroke="currentColor" strokeWidth="1" className="opacity-10" />
+          <path d="M50 5 L50 95" stroke="currentColor" strokeWidth="1" className="opacity-10" />
           
-          {/* Capstone Line (Illuminati Pyramid) */}
-          <path d="M32 38 L68 38" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+          {/* Outer Occult Ring */}
+          <circle cx="50" cy="50" r="40" stroke="currentColor" strokeWidth="4" />
           
-          {/* Animated Blinking Eye */}
+          {/* Inner Sacred Triangle */}
+          <path d="M50 15 L20 72 L80 72 Z" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
+          
+          {/* Central Keyhole of the Vault (Animated pulse) */}
           <motion.g
-            style={{ transformOrigin: "50px 68px" }}
-            animate={{ scaleY: [1, 0.05, 1] }}
-            transition={{ 
-              duration: 0.25, 
-              times: [0, 0.5, 1], 
-              repeat: Infinity, 
-              repeatDelay: 4, 
-              ease: "easeInOut" 
-            }}
+            animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            style={{ transformOrigin: "50px 55px" }}
           >
-            {/* Eye Outline */}
-            <path d="M25 68 C35 51, 65 51, 75 68 C65 85, 35 85, 25 68 Z" stroke="currentColor" strokeWidth="4" strokeLinejoin="round" />
-            
-            {/* Iris and Pupil */}
-            <circle cx="50" cy="68" r="9" stroke="currentColor" strokeWidth="3" />
-            <circle cx="50" cy="68" r="4" fill="currentColor" />
+            <circle cx="50" cy="46" r="8" fill="currentColor" />
+            <path d="M45 50 L40 66 L60 66 L55 50 Z" fill="currentColor" />
           </motion.g>
-          
-          {/* Mystical Rays emitting from capstone */}
-          <path d="M50 30 L50 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="opacity-60" />
-          <path d="M43 33 L38 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="opacity-60" />
-          <path d="M57 33 L62 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="opacity-60" />
+
+          {/* Diamond at the apex */}
+          <path d="M50 5 L53 11 L50 17 L47 11 Z" fill="currentColor" />
         </svg>
       </div>
       
