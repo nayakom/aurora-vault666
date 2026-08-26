@@ -30,17 +30,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <motion.div
       className="relative w-full max-w-sm rounded-none overflow-hidden glass-card transition-all duration-500 group"
-      style={{ perspective: 1000 }}
       onHoverStart={() => {
         setIsHovered(true);
         router.prefetch(`/blog/${product.id}`);
       }}
       onHoverEnd={() => setIsHovered(false)}
-      whileHover={{ y: -15, rotateX: 2, rotateY: -2, scale: 1.02 }}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, type: 'spring', stiffness: 100 }}
+      whileHover={{ y: -5, scale: 1.02 }}
     >
         {isNavigating && typeof document !== 'undefined' && createPortal(
           <motion.div
