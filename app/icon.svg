@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
   <!-- Triangle Outline (Transparent Background) -->
-  <path d="M50 10 L10 85 L90 85 Z" stroke="#D2B48C" stroke-width="10" stroke-linejoin="round" />
+  <path d="M50 10 L10 85 L90 85 Z" stroke="#000000" stroke-width="10" stroke-linejoin="round" />
   
   <!-- Capstone Cut -->
-  <path d="M30 42 L70 42" stroke="#D2B48C" stroke-width="8" stroke-linecap="round" />
+  <path d="M30 42 L70 42" stroke="#000000" stroke-width="8" stroke-linecap="round" />
   
   <!-- Eye Outline -->
-  <path d="M25 65 Q50 40 75 65 Q50 90 25 65 Z" stroke="#D2B48C" stroke-width="8" stroke-linejoin="round" />
+  <path d="M25 65 Q50 40 75 65 Q50 90 25 65 Z" stroke="#000000" stroke-width="8" stroke-linejoin="round" />
   
   <!-- Solid Glowing Pupil -->
-  <circle cx="50" cy="65" r="8" fill="#D2B48C" />
+  <circle cx="50" cy="65" r="8" fill="#000000" />
 </svg>
