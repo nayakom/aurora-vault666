@@ -1,8 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none">
-  <path d="M12 2L2 20H22L12 2Z" stroke="#8B5A2B" stroke-width="2" stroke-linejoin="round" />
-  <circle cx="12" cy="14" r="2.5" stroke="#8B5A2B" stroke-width="1.5" />
-  <circle cx="12" cy="14" r="1" fill="#8B5A2B" />
-  <path d="M12 7V9" stroke="#8B5A2B" stroke-width="1" stroke-linecap="round" />
-  <path d="M9 10L10.5 11" stroke="#8B5A2B" stroke-width="1" stroke-linecap="round" />
-  <path d="M15 10L13.5 11" stroke="#8B5A2B" stroke-width="1" stroke-linecap="round" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Thick Triangle -->
+  <path d="M50 10 L10 85 L90 85 Z" stroke="#D2B48C" stroke-width="12" stroke-linejoin="round" />
+  
+  <!-- Thick Capstone Cut -->
+  <path d="M30 40 L70 40" stroke="#D2B48C" stroke-width="8" stroke-linecap="round" />
+  
+  <!-- Thick Eye Outline -->
+  <path d="M25 65 C40 48, 60 48, 75 65 C60 82, 40 82, 25 65 Z" stroke="#D2B48C" stroke-width="8" stroke-linejoin="round" />
+  
+  <!-- Solid Iris -->
+  <circle cx="50" cy="65" r="10" fill="#D2B48C" />
 </svg>
