@@ -11,9 +11,14 @@ interface ProductGalleryProps {
 export default function ProductGallery({ images, productName }: ProductGalleryProps) {
   const [mainImage, setMainImage] = useState(images?.[0] || '/images/products/placeholder.jpg');
 
+  React.useEffect(() => {
+    // Ensure we start at the top of the page when navigating to a new product
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, []);
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative w-full border border-[#8B5A2B]/30 overflow-hidden bg-[#030303] flex items-center justify-center">
+      <div className="relative w-full aspect-[3/4] md:aspect-square min-h-[300px] border border-[#8B5A2B]/30 overflow-hidden bg-[#030303] flex items-center justify-center">
         <AnimatePresence mode="wait">
           <motion.img
             key={mainImage}
