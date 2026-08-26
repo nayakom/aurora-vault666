@@ -1,13 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Solid Gold Pyramid -->
-  <path d="M50 10 L10 85 L90 85 Z" fill="#D2B48C" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Triangle Outline (Transparent Background) -->
+  <path d="M50 10 L10 85 L90 85 Z" stroke="#D2B48C" stroke-width="10" stroke-linejoin="round" />
   
-  <!-- Horizontal Capstone Cut -->
-  <path d="M28 40 L72 40" stroke="#030303" stroke-width="6" stroke-linecap="round" />
+  <!-- Capstone Cut -->
+  <path d="M30 42 L70 42" stroke="#D2B48C" stroke-width="8" stroke-linecap="round" />
   
-  <!-- Black Eye Socket Cutout -->
-  <path d="M25 62 Q50 38 75 62 Q50 86 25 62 Z" fill="#030303" />
+  <!-- Eye Outline -->
+  <path d="M25 65 Q50 40 75 65 Q50 90 25 65 Z" stroke="#D2B48C" stroke-width="8" stroke-linejoin="round" />
   
-  <!-- Glowing Gold Pupil -->
-  <circle cx="50" cy="62" r="8" fill="#D2B48C" />
+  <!-- Solid Glowing Pupil -->
+  <circle cx="50" cy="65" r="8" fill="#D2B48C" />
 </svg>
