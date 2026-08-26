@@ -39,30 +39,19 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
     e.preventDefault();
     setIsMobileMenuOpen(false); // Close mobile menu if open
 
-    if (pathname === '/') {
-      const hasFilters = window.location.search.includes('category=') || window.location.search.includes('q=');
-      const isAtVault = window.scrollY > 200;
+    if (onHomeClick) {
+      onHomeClick();
+    }
 
-      if (hasFilters) {
-        // Clear filter and scroll to Vault
-        setSearchQuery('');
-        router.push('/', { scroll: false });
-        setTimeout(() => {
-          document.getElementById('vault')?.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      } else {
-        if (isAtVault) {
-          // If already at vault without filter, go to top
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          // If at top without filter, go to vault
-          document.getElementById('vault')?.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
+    setSearchQuery('');
+
+    if (pathname === '/') {
+      // Clear filter and scroll to very top
+      router.push('/', { scroll: false });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      // If on another page (like product details), go back to Vault
-      setSearchQuery('');
-      router.push('/#vault');
+      // If on another page, go back to the start of the home page
+      router.push('/');
     }
   };
 
