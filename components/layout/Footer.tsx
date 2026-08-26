@@ -15,11 +15,11 @@ const Footer: React.FC<FooterProps> = ({ compact = false }) => {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {!compact && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-12 justify-items-center md:justify-items-start">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 lg:gap-8 mb-12 justify-items-start">
 
             {/* Brand Section */}
-            <div className="flex flex-col items-center md:items-start text-center md:text-left">
-              <Logo className="mb-4 scale-100 origin-center md:origin-left" />
+            <div className="col-span-2 lg:col-span-1 flex flex-col items-start text-left">
+              <Logo className="mb-4 scale-100 origin-left" />
               <p className="text-[#808080] text-xs tracking-widest leading-relaxed mb-4 italic">
                 "Only the chosen ones enter The Vault."
               </p>
@@ -29,9 +29,9 @@ const Footer: React.FC<FooterProps> = ({ compact = false }) => {
             </div>
 
             {/* Categories */}
-            <div className="flex flex-col items-center md:items-start w-full">
-              <h4 className="text-white font-black uppercase tracking-widest mb-6 border-b border-[#8B5A2B]/30 pb-2 inline-block">The Vault</h4>
-              <ul className="flex flex-col gap-3 text-[#808080] text-xs font-medium tracking-wide">
+            <div className="col-span-1 flex flex-col items-start w-full">
+              <h4 className="text-white font-black uppercase tracking-widest text-[10px] md:text-xs mb-4 md:mb-6 border-b border-[#8B5A2B]/30 pb-2 inline-block">The Vault</h4>
+              <ul className="flex flex-col gap-3 text-[#808080] text-[10px] md:text-xs font-medium tracking-wide">
                 <li><Link href="/" className="hover:text-[#D2B48C] transition-colors relative group">Home<span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#D2B48C] transition-all group-hover:w-full"></span></Link></li>
                 <li><Link href="/?category=Women" className="hover:text-[#D2B48C] transition-colors relative group">Women's Collection<span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#D2B48C] transition-all group-hover:w-full"></span></Link></li>
                 <li><Link href="/?category=Men" className="hover:text-[#D2B48C] transition-colors relative group">Men's Collection<span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#D2B48C] transition-all group-hover:w-full"></span></Link></li>
@@ -41,9 +41,9 @@ const Footer: React.FC<FooterProps> = ({ compact = false }) => {
             </div>
 
             {/* Support / Legal */}
-            <div className="flex flex-col items-center md:items-start w-full">
-              <h4 className="text-white font-black uppercase tracking-widest mb-6 border-b border-[#8B5A2B]/30 pb-2 inline-block">Support</h4>
-              <ul className="flex flex-col gap-3 text-[#808080] text-xs font-medium tracking-wide">
+            <div className="col-span-1 flex flex-col items-start w-full">
+              <h4 className="text-white font-black uppercase tracking-widest text-[10px] md:text-xs mb-4 md:mb-6 border-b border-[#8B5A2B]/30 pb-2 inline-block">Support</h4>
+              <ul className="flex flex-col gap-3 text-[#808080] text-[10px] md:text-xs font-medium tracking-wide">
                 <li><a href="mailto:aurorasociety666@gmail.com" className="hover:text-[#D2B48C] transition-colors relative group">Contact Us<span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#D2B48C] transition-all group-hover:w-full"></span></a></li>
                 <li><Link href="/privacy" className="hover:text-[#D2B48C] transition-colors relative group">Privacy Policy<span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#D2B48C] transition-all group-hover:w-full"></span></Link></li>
                 <li><Link href="/terms" className="hover:text-[#D2B48C] transition-colors relative group">Terms of Service<span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[#D2B48C] transition-all group-hover:w-full"></span></Link></li>
@@ -51,8 +51,8 @@ const Footer: React.FC<FooterProps> = ({ compact = false }) => {
             </div>
 
             {/* Social */}
-            <div className="flex flex-col items-center md:items-start w-full">
-              <h4 className="text-white font-black uppercase tracking-widest mb-6 border-b border-[#8B5A2B]/30 pb-2 inline-block">Network</h4>
+            <div className="col-span-2 lg:col-span-1 flex flex-col items-start w-full mt-4 lg:mt-0">
+              <h4 className="text-white font-black uppercase tracking-widest text-[10px] md:text-xs mb-4 md:mb-6 border-b border-[#8B5A2B]/30 pb-2 inline-block">Network</h4>
               <div className="flex gap-4">
                 <a href="#" className="w-10 h-10 flex items-center justify-center rounded-sm bg-[#0a0a0a] border border-[#8B5A2B]/30 text-[#8B5A2B] hover:bg-[#D2B48C] hover:border-[#D2B48C] hover:shadow-[0_0_15px_rgba(210,180,140,0.3)] transition-all transform hover:-translate-y-1">
                   <FaInstagram size={16} />
