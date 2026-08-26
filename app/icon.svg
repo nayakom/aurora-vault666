@@ -1,8 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Solid Bright Gold Triangle for max visibility -->
-  <path d="M50 5 L5 90 L95 90 Z" fill="#D2B48C" />
+  <!-- Solid Gold Pyramid -->
+  <path d="M50 10 L10 85 L90 85 Z" fill="#D2B48C" />
   
-  <!-- Large Black Keyhole (represents The Vault) -->
-  <circle cx="50" cy="45" r="14" fill="#030303" />
-  <path d="M41 50 L32 80 L68 80 L59 50 Z" fill="#030303" />
+  <!-- Horizontal Capstone Cut -->
+  <path d="M28 40 L72 40" stroke="#030303" stroke-width="6" stroke-linecap="round" />
+  
+  <!-- Black Eye Socket Cutout -->
+  <path d="M25 62 Q50 38 75 62 Q50 86 25 62 Z" fill="#030303" />
+  
+  <!-- Glowing Gold Pupil -->
+  <circle cx="50" cy="62" r="8" fill="#D2B48C" />
 </svg>
