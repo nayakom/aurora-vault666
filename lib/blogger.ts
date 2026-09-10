@@ -59,9 +59,28 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
         }
       }
 
+      // 2.5 Extract Specifications from Flipkart tables (pasted from Flipkart)
+      const flipkartRegex = /<div[^>]*color:\s*#707070[^>]*>([\s\S]*?)<\/div>[\s\S]*?<div[^>]*color:\s*#333333[^>]*>([\s\S]*?)<\/div>/gi;
+      let flipkartMatch;
+      while ((flipkartMatch = flipkartRegex.exec(post.content)) !== null) {
+        let key = flipkartMatch[1].replace(/<[^>]*>?/gm, '').trim();
+        let val = flipkartMatch[2].replace(/<[^>]*>?/gm, '').trim();
+        if (key && val) {
+          specifications[key] = val;
+        }
+      }
+
       // 3. Extract Description and Usage
+      let contentForDesc = post.content;
+      
+      // Remove parsed Flipkart specification divs from the description content so they don't duplicate
+      contentForDesc = contentForDesc.replace(/<div[^>]*color:\s*#707070[^>]*>([\s\S]*?)<\/div>/gi, '');
+      contentForDesc = contentForDesc.replace(/<div[^>]*color:\s*#333333[^>]*>([\s\S]*?)<\/div>/gi, '');
+      // Remove Flipkart table category headings (like "General", "Dimensions")
+      contentForDesc = contentForDesc.replace(/<div[^>]*class="[^"]*v1zwn21n v1zwn24[^"]*"[^>]*>([\s\S]*?)<\/div>/gi, '');
+
       // Preserve newlines for paragraphs, divs, table rows, and list items before stripping HTML
-      let textContent = post.content
+      let textContent = contentForDesc
         .replace(/<br\s*\/?>/gi, '\n')
         .replace(/<\/p>/gi, '\n\n')
         .replace(/<\/div>/gi, '\n')
