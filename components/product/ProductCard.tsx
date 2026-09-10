@@ -132,7 +132,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <a href={`/blog/${product.id}`} onClick={handleNavigate} className="block cursor-pointer">
           <h3 className="text-sm md:text-xl font-bold text-[#D2B48C] mb-1 md:mb-2 uppercase tracking-wide font-display hover:text-white transition-colors">{product.name}</h3>
         </a>
-        <p className="text-[#808080] text-[10px] md:text-sm mb-3 md:mb-6 line-clamp-1 md:line-clamp-2 font-light tracking-wide">{product.description}</p>
+        <p className="text-[#808080] text-[10px] md:text-sm mb-3 md:mb-6 line-clamp-1 md:line-clamp-2 font-light tracking-wide whitespace-pre-wrap">{product.description}</p>
 
         {/* Explore Button */}
         <div className="mt-4 md:mt-8">

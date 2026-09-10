@@ -115,7 +115,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 <span className="h-px bg-[#8B5A2B]/30 flex-grow"></span>
               </h3>
               <div 
-                className="text-[#808080] text-sm font-light leading-relaxed mb-6 prose prose-invert prose-p:mb-4 prose-sm"
+                className="text-[#808080] text-sm font-light leading-relaxed mb-6 whitespace-pre-wrap"
                 dangerouslySetInnerHTML={{ __html: product.description }}
               />
               {product.usage && (

@@ -60,8 +60,20 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
       }
 
       // 3. Extract Description and Usage
-      // We'll split the content by paragraphs or breaks to find text
-      let textContent = post.content.replace(/<[^>]*>?/gm, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+      // Preserve newlines for paragraphs, divs, table rows, and list items before stripping HTML
+      let textContent = post.content
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<\/p>/gi, '\n\n')
+        .replace(/<\/div>/gi, '\n')
+        .replace(/<\/tr>/gi, '\n')
+        .replace(/<\/li>/gi, '\n')
+        .replace(/<[^>]*>?/gm, ' ')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/[ ]+/g, ' ')
+        .replace(/\n\s*\n/g, '\n\n') // Collapse excessive newlines
+        .trim();
 
       let description = textContent;
       let usage = "";
