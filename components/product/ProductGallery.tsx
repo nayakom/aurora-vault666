@@ -99,12 +99,16 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
 
               <div 
                 className="w-full h-full flex items-center justify-center overflow-hidden touch-none"
-                onClick={handleImageTap}
-                onTouchEnd={handleImageTap}
+                onClick={() => setIsFullscreen(false)}
               >
                 <motion.img
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: zoom, opacity: 1 }}
+                  initial={{ scale: 0.8, opacity: 0, x: 0, y: 0 }}
+                  animate={{ 
+                    scale: zoom, 
+                    opacity: 1,
+                    x: zoom === 1 ? 0 : undefined,
+                    y: zoom === 1 ? 0 : undefined
+                  }}
                   exit={{ scale: 0.8, opacity: 0 }}
                   transition={{ type: "spring", damping: 25, stiffness: 300 }}
                   src={mainImage}
@@ -113,6 +117,8 @@ export default function ProductGallery({ images, productName }: ProductGalleryPr
                   dragConstraints={{ left: -200, right: 200, top: -200, bottom: 200 }}
                   className="max-w-full max-h-[90vh] object-contain cursor-zoom-in"
                   style={{ cursor: zoom > 1 ? 'grab' : 'zoom-in' }}
+                  onClick={handleImageTap}
+                  onTouchEnd={handleImageTap}
                 />
               </div>
               
