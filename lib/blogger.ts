@@ -97,14 +97,52 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
       let description = textContent;
       let usage = "";
 
-      // If user specifically typed "Usage:" we can try to extract it
-      if (textContent.includes('Usage:')) {
-        const parts = textContent.split('Usage:');
-        description = parts[0].trim();
-        usage = parts[1].trim();
-      } else {
-        // If no Usage, split in half roughly or just use full as description
-        description = textContent;
+      // 4. Manual Section Parser (User-typed headings)
+      let lines = textContent.split('\n');
+      let currentSection = 'description'; // Default section
+      let descriptionLines: string[] = [];
+      let specsLines: string[] = [];
+      let usageLines: string[] = [];
+      
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].trim();
+        let lower = line.toLowerCase().replace(/:$/, ''); // Remove trailing colon if any
+        
+        if (lower === 'specifications' || lower === 'specification' || lower === 'product details' || lower === 'details') {
+          currentSection = 'specifications';
+          continue;
+        } else if (lower === 'description' || lower === 'about' || lower === 'overview') {
+          currentSection = 'description';
+          continue;
+        } else if (lower === 'purpose' || lower === 'usage' || lower === 'how to use') {
+          currentSection = 'usage';
+          continue;
+        }
+
+        if (currentSection === 'description') {
+          descriptionLines.push(lines[i]);
+        } else if (currentSection === 'usage') {
+          usageLines.push(lines[i]);
+        } else if (currentSection === 'specifications') {
+          specsLines.push(lines[i]);
+        }
+      }
+
+      // Update description and usage if manual sections were found
+      let parsedDesc = descriptionLines.join('\n').trim();
+      let parsedUsage = usageLines.join('\n').trim();
+      
+      if (parsedDesc) description = parsedDesc;
+      if (parsedUsage) usage = parsedUsage;
+      
+      // Parse manual specifications (e.g., Brand: Daniel Klein)
+      for (let line of specsLines) {
+        if (line.includes(':')) {
+           const [key, ...val] = line.split(':');
+           if (key && val.length > 0) {
+             specifications[key.trim()] = val.join(':').trim();
+           }
+        }
       }
 
       // 4. Parse Affiliate Links and generate realistic premium ratings
