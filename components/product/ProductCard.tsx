@@ -21,6 +21,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const handleNavigate = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsNavigating(true);
+    if (typeof window !== 'undefined') {
+      try {
+        sessionStorage.setItem('aurora_intro_completed', 'true');
+        sessionStorage.setItem('aurora_return_to_vault', 'true');
+        window.history.replaceState(null, '', '/#vault');
+      } catch (err) {
+        // Ignore storage errors in privacy mode
+      }
+    }
     router.prefetch(`/blog/${product.id}`);
     setTimeout(() => {
       router.push(`/blog/${product.id}`);

@@ -10,6 +10,7 @@ import Navbar from "@/components/layout/Navbar";
 import Accordion from "@/components/ui/Accordion";
 import { motion, AnimatePresence } from 'framer-motion';
 import { parseBulkSpecifications } from "@/lib/specsParser";
+import BackToVault from "@/components/product/BackToVault";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -55,11 +56,16 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 pt-36 lg:pt-48 pb-24">
         
-        {/* Premium Breadcrumb / Section Header */}
-        <div className="flex items-center gap-4 mb-12 opacity-80">
-          <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-[#8B5A2B]"></div>
-          <span className="text-[10px] font-mono text-[#D2B48C] tracking-[0.4em] uppercase">Vault Data / Artifact File</span>
-          <div className="h-[1px] flex-grow bg-gradient-to-l from-transparent via-[#8B5A2B]/30 to-[#8B5A2B]"></div>
+        {/* Premium Breadcrumb & Back to Vault Header */}
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
+          <BackToVault />
+          <div className="flex items-center gap-3 opacity-80">
+            <div className="h-[1px] w-8 bg-[#8B5A2B]/40 hidden sm:block"></div>
+            <span className="text-[10px] font-mono text-[#D2B48C] tracking-[0.3em] uppercase">
+              Vault Data / Artifact File
+            </span>
+            <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-[#8B5A2B]/40 hidden sm:block"></div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-start">

@@ -25,23 +25,73 @@ export default function Home() {
       const isSoftNav = isSpaInitialized;
       isSpaInitialized = true;
 
-      const hasFilters = window.location.search.includes('category=') || window.location.search.includes('q=');
-      // Skip the intro if we are returning from another page (soft navigation), or if accessing a specific filter/hash
-      if (isSoftNav || hasFilters || window.location.hash === '#vault') {
+      const introAlreadyCompleted = sessionStorage.getItem("aurora_intro_completed") === "true";
+      const returnToVault = sessionStorage.getItem("aurora_return_to_vault") === "true";
+      const hasFilters = window.location.search.includes("category=") || window.location.search.includes("q=");
+      const isVaultHash = window.location.hash === "#vault";
+
+      // If returning from product, intro was completed, soft navigation, or accessing vault/filter:
+      if (introAlreadyCompleted || returnToVault || isSoftNav || hasFilters || isVaultHash) {
         setShowMainSite(true);
-        if (hasFilters || window.location.hash === '#vault') {
-          setTimeout(() => {
-            document.getElementById('vault')?.scrollIntoView({ behavior: 'smooth' });
-          }, 300); // slightly longer timeout to ensure layout is ready
+        sessionStorage.setItem("aurora_intro_completed", "true");
+
+        if (returnToVault || isVaultHash || hasFilters) {
+          sessionStorage.removeItem("aurora_return_to_vault");
+
+          const scrollToVault = () => {
+            const vaultEl = document.getElementById("vault");
+            if (vaultEl) {
+              vaultEl.scrollIntoView({ behavior: "smooth" });
+            }
+          };
+
+          setTimeout(scrollToVault, 50);
+          setTimeout(scrollToVault, 250);
+          setTimeout(scrollToVault, 600);
         }
       }
+
+      // Handle browser back / forward buttons (popstate & pageshow for bfcache)
+      const handlePopState = () => {
+        const isBackToVault =
+          sessionStorage.getItem("aurora_return_to_vault") === "true" || window.location.hash === "#vault";
+        if (isBackToVault) {
+          setShowMainSite(true);
+          sessionStorage.removeItem("aurora_return_to_vault");
+          setTimeout(() => {
+            document.getElementById("vault")?.scrollIntoView({ behavior: "smooth" });
+          }, 150);
+        }
+      };
+
+      const handlePageShow = (event: PageTransitionEvent) => {
+        if (event.persisted || sessionStorage.getItem("aurora_intro_completed") === "true") {
+          setShowMainSite(true);
+          if (sessionStorage.getItem("aurora_return_to_vault") === "true" || window.location.hash === "#vault") {
+            sessionStorage.removeItem("aurora_return_to_vault");
+            setTimeout(() => {
+              document.getElementById("vault")?.scrollIntoView({ behavior: "smooth" });
+            }, 200);
+          }
+        }
+      };
+
+      window.addEventListener("popstate", handlePopState);
+      window.addEventListener("pageshow", handlePageShow);
+
+      return () => {
+        window.removeEventListener("popstate", handlePopState);
+        window.removeEventListener("pageshow", handlePageShow);
+      };
     }
   }, []);
 
   const handleIntroComplete = () => {
+    sessionStorage.setItem("aurora_intro_completed", "true");
+    isSpaInitialized = true;
     setShowMainSite(true);
     // User wants to stay at the very top of the page (Hero Section) after the intro
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   if (!mounted) return <main className="min-h-screen bg-[#030303]" />; // Prevent hydration mismatch flash
@@ -70,7 +120,7 @@ export default function Home() {
             
             {/* Foreground Content */}
             <div className="relative z-10">
-              <Navbar onHomeClick={() => setShowMainSite(false)} />
+              <Navbar onHomeClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
               <HeroSection />
               <Suspense fallback={<div className="text-center py-20 text-[#D2B48C]">Loading Vault...</div>}>
                 <div id="vault" className="scroll-mt-20">
