@@ -96,6 +96,8 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
 
       let description = textContent;
       let usage = "";
+      let features = "";
+      let warranty = "";
 
       // 4. Manual Section Parser (User-typed headings)
       let lines = textContent.split('\n');
@@ -103,6 +105,8 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
       let descriptionLines: string[] = [];
       let specsLines: string[] = [];
       let usageLines: string[] = [];
+      let featuresLines: string[] = [];
+      let warrantyLines: string[] = [];
       
       for (let i = 0; i < lines.length; i++) {
         let line = lines[i].trim();
@@ -117,23 +121,37 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
         } else if (lower === 'purpose' || lower === 'usage' || lower === 'how to use') {
           currentSection = 'usage';
           continue;
+        } else if (lower === 'features' || lower === 'key features') {
+          currentSection = 'features';
+          continue;
+        } else if (lower === 'warranty' || lower === 'warranty details') {
+          currentSection = 'warranty';
+          continue;
         }
 
         if (currentSection === 'description') {
           descriptionLines.push(lines[i]);
         } else if (currentSection === 'usage') {
           usageLines.push(lines[i]);
+        } else if (currentSection === 'features') {
+          featuresLines.push(lines[i]);
+        } else if (currentSection === 'warranty') {
+          warrantyLines.push(lines[i]);
         } else if (currentSection === 'specifications') {
           specsLines.push(lines[i]);
         }
       }
 
-      // Update description and usage if manual sections were found
+      // Update variables if manual sections were found
       let parsedDesc = descriptionLines.join('\n').trim();
       let parsedUsage = usageLines.join('\n').trim();
+      let parsedFeatures = featuresLines.join('\n').trim();
+      let parsedWarranty = warrantyLines.join('\n').trim();
       
       if (parsedDesc) description = parsedDesc;
       if (parsedUsage) usage = parsedUsage;
+      if (parsedFeatures) features = parsedFeatures;
+      if (parsedWarranty) warranty = parsedWarranty;
       
       // Parse manual specifications (e.g., Brand: Daniel Klein)
       for (let line of specsLines) {
@@ -145,37 +163,58 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
         }
       }
 
-      // 4. Parse Affiliate Links and generate realistic premium ratings
+      // 5. Parse Affiliate Links and custom ratings
       const affiliates: any = {};
-      const linkRegex = /<a[^>]+href="([^">]+)"[^>]*>(.*?)<\/a>/gi;
+      const linkRegex = /<a([^>]+)>(.*?)<\/a>/gi;
       let match;
       while ((match = linkRegex.exec(post.content)) !== null) {
-        const url = match[1].toLowerCase();
+        const attributes = match[1];
         const text = match[2].toLowerCase();
         
-        if (text.includes('amazon') || url.includes('amazon.') || url.includes('amzn.to')) {
-          affiliates.amazon = { platform: "Amazon", url: match[1], rating: 4.8, reviews: 2450 };
-        } else if (text.includes('myntra') || url.includes('myntra.')) {
-          affiliates.myntra = { platform: "Myntra", url: match[1], rating: 4.7, reviews: 920 };
+        const hrefMatch = /href="([^"]+)"/i.exec(attributes);
+        const ratingMatch = /data-rating="([^"]+)"/i.exec(attributes);
+        
+        if (!hrefMatch) continue;
+        
+        const url = hrefMatch[1];
+        const customRating = ratingMatch ? parseFloat(ratingMatch[1]) : null;
+        
+        if (text.includes('amazon') || url.includes('amazon.') || url.includes('amzn.to') || url.includes('amzn.in') || url.includes('link.amazon')) {
+          affiliates.amazon = { platform: "Amazon", url: url, rating: customRating || 4.8, reviews: 2450 };
+        } else if (text.includes('myntra') || url.includes('myntra.') || url.includes('myntr.it')) {
+          affiliates.myntra = { platform: "Myntra", url: url, rating: customRating || 4.7, reviews: 920 };
         } else if (text.includes('meesho') || url.includes('meesho.')) {
-          affiliates.meesho = { platform: "Meesho", url: match[1], rating: 4.4, reviews: 3100 };
-        } else if (text.includes('flipkart') || url.includes('flipkart.') || url.includes('ekaro.in')) {
-          // Fallback to Flipkart for generic ekaro links if text doesn't specify
-          affiliates.flipkart = { platform: "Flipkart", url: match[1], rating: 4.6, reviews: 1820 };
+          affiliates.meesho = { platform: "Meesho", url: url, rating: customRating || 4.4, reviews: 3100 };
+        } else if (text.includes('flipkart') || url.includes('flipkart.') || url.includes('ekaro.in') || url.includes('fkrt.it')) {
+          affiliates.flipkart = { platform: "Flipkart", url: url, rating: customRating || 4.6, reviews: 1820 };
         }
       }
+
+      // Check for explicit main product rating
+      const mainRatingMatch = /data-product-rating="([^"]+)"/i.exec(post.content);
+      const customMainRating = mainRatingMatch ? parseFloat(mainRatingMatch[1]) : null;
+
+      // Calculate main product rating
+      const assignedRatings = Object.values(affiliates).map((a: any) => a.rating);
+      const avgRating = customMainRating
+        ? customMainRating
+        : (assignedRatings.length > 0 
+          ? parseFloat((assignedRatings.reduce((a: number, b: number) => a + b, 0) / assignedRatings.length).toFixed(1))
+          : 4.8);
 
       return {
         id: post.id,
         name: post.title,
         description: description,
         usage: usage,
+        features: features,
+        warranty: warranty,
         specifications: specifications,
         price: 0,
         imageUrl: imageUrl,
         images: images,
         affiliates: affiliates,
-        rating: 4.8, // Default high rating for aesthetics
+        rating: avgRating,
         labels: post.labels || []
       };
     });

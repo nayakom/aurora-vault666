@@ -10,6 +10,8 @@ export interface Product {
   name: string;
   description: string;
   usage: string;
+  features?: string;
+  warranty?: string;
   specifications: Record<string, string>;
   price: number;
   imageUrl: string;

@@ -11,6 +11,7 @@ import Accordion from "@/components/ui/Accordion";
 import { motion, AnimatePresence } from 'framer-motion';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -21,21 +22,16 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     notFound();
   }
 
-  // We can't use useState in an async server component.
-  // So we will pass the product to a Client Component wrapper for the gallery, 
-  // or we can make the whole page a Client Component and fetch via useEffect.
-  // Wait, in Next.js App Router, we can just split the interactive gallery into a client component.
-  // But for simplicity, since the layout is already built here, let's just make a small inline client component for the gallery.
-
   // Helper to render stars
   const renderStars = (rating: number) => {
     const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    const hasHalfStar = (rating % 1) >= 0.25 && (rating % 1) <= 0.75;
+    const extraFull = (rating % 1) > 0.75 ? 1 : 0;
+    const emptyStars = Math.max(0, 5 - fullStars - extraFull - (hasHalfStar ? 1 : 0));
 
     return (
-      <div className="flex text-[#8B5A2B]">
-        {[...Array(fullStars)].map((_, i) => <FaStarFull key={`f-${i}`} />)}
+      <div className="flex text-[#8B5A2B] items-center gap-0.5">
+        {[...Array(fullStars + extraFull)].map((_, i) => <FaStarFull key={`f-${i}`} />)}
         {hasHalfStar && <FaStarHalfAlt />}
         {[...Array(emptyStars)].map((_, i) => <FaStar key={`e-${i}`} className="opacity-30" />)}
       </div>
@@ -114,17 +110,43 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 <span>[ PURPOSE ]</span>
                 <span className="h-px bg-[#8B5A2B]/30 flex-grow"></span>
               </h3>
-              <div 
-                className="text-[#808080] text-sm font-light leading-relaxed mb-6 whitespace-pre-wrap"
-                dangerouslySetInnerHTML={{ __html: product.description }}
-              />
+              <div className="text-[#808080] text-sm font-light leading-relaxed mb-6 whitespace-pre-wrap">
+                {product.description}
+              </div>
               {product.usage && (
-                <div 
-                  className="text-[#D2B48C] text-sm leading-relaxed prose prose-invert italic border-l border-[#8B5A2B]/30 pl-4 py-2 bg-[#8B5A2B]/5"
-                  dangerouslySetInnerHTML={{ __html: product.usage }}
-                />
+                <div className="text-[#D2B48C] text-sm leading-relaxed prose prose-invert italic border-l border-[#8B5A2B]/30 pl-4 py-2 bg-[#8B5A2B]/5 whitespace-pre-wrap">
+                  {product.usage}
+                </div>
               )}
             </div>
+
+            {/* Features (if exists) */}
+            {product.features && (
+              <div className="mb-10 relative">
+                <div className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-[#8B5A2B]/50 to-transparent hidden md:block"></div>
+                <h3 className="text-[10px] font-mono text-[#8B5A2B] uppercase tracking-[0.2em] mb-4 flex items-center gap-4">
+                  <span>[ FEATURES ]</span>
+                  <span className="h-px bg-[#8B5A2B]/30 flex-grow"></span>
+                </h3>
+                <div className="text-[#808080] text-sm font-light leading-relaxed mb-6 whitespace-pre-wrap">
+                  {product.features}
+                </div>
+              </div>
+            )}
+
+            {/* Warranty (if exists) */}
+            {product.warranty && (
+              <div className="mb-10 relative">
+                <div className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-[#8B5A2B]/50 to-transparent hidden md:block"></div>
+                <h3 className="text-[10px] font-mono text-[#8B5A2B] uppercase tracking-[0.2em] mb-4 flex items-center gap-4">
+                  <span>[ WARRANTY ]</span>
+                  <span className="h-px bg-[#8B5A2B]/30 flex-grow"></span>
+                </h3>
+                <div className="text-[#808080] text-sm font-light leading-relaxed mb-6 whitespace-pre-wrap">
+                  {product.warranty}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -154,9 +176,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                     </div>
                     <div>
                       <h4 className="text-xl font-bold text-white tracking-[0.1em] mb-1 uppercase font-display">Amazon</h4>
-                      <div className="flex flex-col sm:flex-row items-center gap-2 text-xs tracking-widest">
+                      <div className="flex items-center gap-2 text-xs tracking-widest whitespace-nowrap">
                         {renderStars(product.affiliates.amazon.rating)}
-                        <span className="text-[#808080] ml-2">({product.affiliates.amazon.reviews.toLocaleString()})</span>
+                        <span className="text-[#D2B48C] font-mono font-bold ml-1">({product.affiliates.amazon.rating})</span>
                       </div>
                     </div>
                   </div>
@@ -178,9 +200,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                     </div>
                     <div>
                       <h4 className="text-xl font-bold text-white tracking-[0.1em] mb-1 uppercase font-display">Flipkart</h4>
-                      <div className="flex flex-col sm:flex-row items-center gap-2 text-xs tracking-widest">
+                      <div className="flex items-center gap-2 text-xs tracking-widest whitespace-nowrap">
                         {renderStars(product.affiliates.flipkart.rating)}
-                        <span className="text-[#808080] ml-2">({product.affiliates.flipkart.reviews.toLocaleString()})</span>
+                        <span className="text-[#D2B48C] font-mono font-bold ml-1">({product.affiliates.flipkart.rating})</span>
                       </div>
                     </div>
                   </div>
@@ -202,9 +224,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                     </div>
                     <div>
                       <h4 className="text-xl font-bold text-white tracking-[0.1em] mb-1 uppercase font-display">Myntra</h4>
-                      <div className="flex flex-col sm:flex-row items-center gap-2 text-xs tracking-widest">
+                      <div className="flex items-center gap-2 text-xs tracking-widest whitespace-nowrap">
                         {renderStars(product.affiliates.myntra.rating)}
-                        <span className="text-[#808080] ml-2">({product.affiliates.myntra.reviews.toLocaleString()})</span>
+                        <span className="text-[#D2B48C] font-mono font-bold ml-1">({product.affiliates.myntra.rating})</span>
                       </div>
                     </div>
                   </div>
@@ -226,9 +248,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                     </div>
                     <div>
                       <h4 className="text-xl font-bold text-white tracking-[0.1em] mb-1 uppercase font-display">Meesho</h4>
-                      <div className="flex flex-col sm:flex-row items-center gap-2 text-xs tracking-widest">
+                      <div className="flex items-center gap-2 text-xs tracking-widest whitespace-nowrap">
                         {renderStars(product.affiliates.meesho.rating)}
-                        <span className="text-[#808080] ml-2">({product.affiliates.meesho.reviews.toLocaleString()})</span>
+                        <span className="text-[#D2B48C] font-mono font-bold ml-1">({product.affiliates.meesho.rating})</span>
                       </div>
                     </div>
                   </div>

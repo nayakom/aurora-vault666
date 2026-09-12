@@ -142,6 +142,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <div className="absolute inset-0 bg-[#8B5A2B] transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-500 ease-out z-0"></div>
           </a>
         </div>
+
       </div>
     </motion.div>
   );
