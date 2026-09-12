@@ -5,6 +5,24 @@ import { useState, useRef, useEffect } from "react";
 import { Plus, Trash2, Link as LinkIcon, Star, Image as ImageIcon, Send, Loader2, UploadCloud } from "lucide-react";
 import { publishToBlogger } from "@/app/actions/publishPost";
 
+interface AdminFormData {
+  title: string;
+  rating: number | string;
+  images: string[];
+  description: string;
+  purpose: string;
+  features: string;
+  warranty: string;
+  labels: string;
+  specifications: { key: string; value: string }[];
+  affiliates: {
+    amazon: { url: string; rating: number | string };
+    flipkart: { url: string; rating: number | string };
+    myntra: { url: string; rating: number | string };
+    meesho: { url: string; rating: number | string };
+  };
+}
+
 export default function AdminDashboard() {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
@@ -13,7 +31,7 @@ export default function AdminDashboard() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [editMode, setEditMode] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<AdminFormData>({
     title: "",
     rating: 4.8,
     images: [""],
@@ -38,7 +56,7 @@ export default function AdminDashboard() {
         const product = JSON.parse(editData);
         setFormData({
           title: product.name || "",
-          rating: product.rating || 4.8,
+          rating: (product.rating !== undefined && !isNaN(product.rating)) ? product.rating : 4.8,
           images: product.images || [product.imageUrl || ""],
           description: product.description || "",
           purpose: product.usage || "",
@@ -49,10 +67,10 @@ export default function AdminDashboard() {
             ? Object.entries(product.specifications).map(([key, value]) => ({ key, value: String(value) }))
             : [{ key: "", value: "" }],
           affiliates: {
-            amazon: { url: product.affiliates?.amazon?.url || "", rating: product.affiliates?.amazon?.rating || 4.8 },
-            flipkart: { url: product.affiliates?.flipkart?.url || "", rating: product.affiliates?.flipkart?.rating || 4.6 },
-            myntra: { url: product.affiliates?.myntra?.url || "", rating: product.affiliates?.myntra?.rating || 4.7 },
-            meesho: { url: product.affiliates?.meesho?.url || "", rating: product.affiliates?.meesho?.rating || 4.4 },
+            amazon: { url: product.affiliates?.amazon?.url || "", rating: (product.affiliates?.amazon?.rating && !isNaN(product.affiliates?.amazon?.rating)) ? product.affiliates?.amazon?.rating : 4.8 },
+            flipkart: { url: product.affiliates?.flipkart?.url || "", rating: (product.affiliates?.flipkart?.rating && !isNaN(product.affiliates?.flipkart?.rating)) ? product.affiliates?.flipkart?.rating : 4.6 },
+            myntra: { url: product.affiliates?.myntra?.url || "", rating: (product.affiliates?.myntra?.rating && !isNaN(product.affiliates?.myntra?.rating)) ? product.affiliates?.myntra?.rating : 4.7 },
+            meesho: { url: product.affiliates?.meesho?.url || "", rating: (product.affiliates?.meesho?.rating && !isNaN(product.affiliates?.meesho?.rating)) ? product.affiliates?.meesho?.rating : 4.4 },
           }
         });
         setEditMode(product.id);
@@ -88,7 +106,23 @@ export default function AdminDashboard() {
     setLoading(true);
     setMessage("");
     try {
-      const res = await publishToBlogger(formData, (session as any).accessToken, editMode || undefined);
+      const sanitizedAffiliates: any = {};
+      const platforms = ['amazon', 'flipkart', 'myntra', 'meesho'];
+      platforms.forEach((platform) => {
+        const item = (formData.affiliates as any)[platform] || {};
+        sanitizedAffiliates[platform] = {
+          url: item.url || "",
+          rating: parseFloat(String(item.rating)) || 4.8,
+        };
+      });
+
+      const payload = {
+        ...formData,
+        rating: parseFloat(String(formData.rating)) || 4.8,
+        affiliates: sanitizedAffiliates,
+      };
+
+      const res = await publishToBlogger(payload, (session as any).accessToken, editMode || undefined);
       if (res.success) {
         setMessage(editMode ? "Post Updated in Blogger Successfully!" : "Post Published to Blogger Successfully!");
       } else {
@@ -130,9 +164,9 @@ export default function AdminDashboard() {
 
       const uploadedUrls = await Promise.all(uploadPromises);
 
-      setFormData(prev => {
+      setFormData((prev: any) => {
         // If the first item is empty string, remove it
-        const currentImages = prev.images.filter(img => img.trim() !== "");
+        const currentImages = prev.images.filter((img: string) => img.trim() !== "");
         return {
           ...prev,
           images: [...currentImages, ...uploadedUrls]
@@ -184,8 +218,11 @@ export default function AdminDashboard() {
                 step="0.1"
                 min="1"
                 max="5"
-                value={formData.rating}
-                onChange={(e) => setFormData({ ...formData, rating: parseFloat(e.target.value) || 4.8 })}
+                value={formData.rating ?? ""}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setFormData({ ...formData, rating: val === "" ? "" : val });
+                }}
                 className="w-full bg-[#0F0F0F] border border-[#333333] rounded p-3 text-[#E0E0E0] focus:border-[#D2B48C] focus:outline-none text-sm"
                 placeholder="4.2"
               />
@@ -380,14 +417,17 @@ export default function AdminDashboard() {
                         step="0.1"
                         min="1"
                         max="5"
-                        value={(formData.affiliates as any)[platform].rating}
-                        onChange={(e) => setFormData({
-                          ...formData,
-                          affiliates: {
-                            ...formData.affiliates,
-                            [platform]: { ...(formData.affiliates as any)[platform], rating: parseFloat(e.target.value) }
-                          }
-                        })}
+                        value={(formData.affiliates as any)[platform]?.rating ?? ""}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setFormData({
+                            ...formData,
+                            affiliates: {
+                              ...formData.affiliates,
+                              [platform]: { ...(formData.affiliates as any)[platform], rating: val === "" ? "" : val }
+                            }
+                          });
+                        }}
                         className="w-full bg-[#1A1A1A] border border-[#333333] rounded p-2 text-[#E0E0E0] focus:border-[#D2B48C] focus:outline-none text-sm"
                       />
                     </div>
