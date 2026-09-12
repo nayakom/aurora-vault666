@@ -9,6 +9,7 @@ import IlluminatiEye from "@/components/layout/IlluminatiEye";
 import Navbar from "@/components/layout/Navbar";
 import Accordion from "@/components/ui/Accordion";
 import { motion, AnimatePresence } from 'framer-motion';
+import { parseBulkSpecifications } from "@/lib/specsParser";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -68,18 +69,52 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             <ProductGallery images={product.images} productName={product.name} />
             
             {/* Specifications Accordion */}
-            {product.specifications && Object.keys(product.specifications).length > 0 && (
-              <Accordion title="Product Details" defaultOpen={true}>
-                <div className="divide-y divide-[#8B5A2B]/10">
-                  {Object.entries(product.specifications).map(([key, value]) => (
-                    <div key={key} className="flex flex-col sm:flex-row py-4 px-6 hover:bg-[#8B5A2B]/5 transition-colors gap-2 sm:gap-6">
-                      <span className="w-full sm:w-1/3 text-[#808080] font-bold text-sm tracking-wide capitalize">{key}</span>
-                      <span className="w-full sm:w-2/3 text-[#D2B48C] font-light text-sm">{value as string}</span>
+            {(() => {
+              let displaySpecs: { key: string; value: string }[] = [];
+              if (product.specifications && Object.keys(product.specifications).length > 0) {
+                const entries = Object.entries(product.specifications);
+                // Auto-expand if saved as a single huge block of text (like in Image 3)
+                if (
+                  entries.length === 1 &&
+                  typeof entries[0][1] === 'string' &&
+                  (entries[0][1].includes('\n') || entries[0][1].length > 60)
+                ) {
+                  const reparsed = parseBulkSpecifications(entries[0][1]);
+                  if (reparsed.length > 1) {
+                    displaySpecs = reparsed;
+                  } else {
+                    displaySpecs = [{ key: entries[0][0], value: String(entries[0][1]) }];
+                  }
+                } else {
+                  displaySpecs = entries.map(([k, v]) => ({ key: k, value: String(v) }));
+                }
+              }
+
+              if (displaySpecs.length === 0) return null;
+
+              return (
+                <Accordion title="Specifications" defaultOpen={true}>
+                  <div className="p-5 sm:p-6 bg-[#080808]/90">
+                    <div className="text-[#808080] font-mono text-xs uppercase tracking-wider mb-4 pb-2 border-b border-[#8B5A2B]/20 flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-[#8B5A2B] rounded-full"></span>
+                      General
                     </div>
-                  ))}
-                </div>
-              </Accordion>
-            )}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                      {displaySpecs.map((item, idx) => (
+                        <div key={`${item.key}-${idx}`} className="border-b border-[#8B5A2B]/20 pb-3 group">
+                          <span className="block text-[#808080] text-[11px] sm:text-xs font-normal tracking-wide capitalize mb-1">
+                            {item.key}
+                          </span>
+                          <span className="block text-[#E0E0E0] group-hover:text-[#D2B48C] transition-colors text-xs sm:text-sm font-medium leading-snug break-words">
+                            {item.value}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Accordion>
+              );
+            })()}
           </div>
 
           {/* Right Column: Product Info */}

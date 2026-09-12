@@ -2,8 +2,9 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useState, useRef, useEffect } from "react";
-import { Plus, Trash2, Link as LinkIcon, Star, Image as ImageIcon, Send, Loader2, UploadCloud } from "lucide-react";
+import { Plus, Trash2, Link as LinkIcon, Star, Image as ImageIcon, Send, Loader2, UploadCloud, Sparkles, Clipboard, Check } from "lucide-react";
 import { publishToBlogger } from "@/app/actions/publishPost";
+import { parseBulkSpecifications } from "@/lib/specsParser";
 
 interface AdminFormData {
   title: string;
@@ -30,6 +31,9 @@ export default function AdminDashboard() {
   const [message, setMessage] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [editMode, setEditMode] = useState<string | null>(null);
+  const [showBulkSpecs, setShowBulkSpecs] = useState(false);
+  const [bulkSpecsText, setBulkSpecsText] = useState("");
+  const [bulkSpecsSuccess, setBulkSpecsSuccess] = useState("");
 
   const [formData, setFormData] = useState<AdminFormData>({
     title: "",
@@ -178,6 +182,46 @@ export default function AdminDashboard() {
     } finally {
       setUploadingImage(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const handleApplyBulkSpecs = (append: boolean) => {
+    const parsed = parseBulkSpecifications(bulkSpecsText);
+    if (parsed.length === 0) {
+      setBulkSpecsSuccess("No valid specifications found in pasted text.");
+      return;
+    }
+    if (append) {
+      const existing = formData.specifications.filter((s) => s.key.trim() || s.value.trim());
+      setFormData({ ...formData, specifications: [...existing, ...parsed] });
+    } else {
+      setFormData({ ...formData, specifications: parsed });
+    }
+    setBulkSpecsSuccess(`✓ Successfully imported ${parsed.length} specifications!`);
+    setBulkSpecsText("");
+    setShowBulkSpecs(false);
+    setTimeout(() => setBulkSpecsSuccess(""), 5000);
+  };
+
+  const handleSpecPaste = (e: React.ClipboardEvent<HTMLInputElement>, index: number) => {
+    const pasteData = e.clipboardData.getData('text');
+    if (
+      pasteData &&
+      (pasteData.includes('\n') || (pasteData.includes(':') && pasteData.includes('\n')) || pasteData.includes('\t'))
+    ) {
+      const parsed = parseBulkSpecifications(pasteData);
+      if (parsed.length > 1 || (parsed.length === 1 && parsed[0].value)) {
+        e.preventDefault();
+        const currentSpecs = [...formData.specifications];
+        if (!currentSpecs[index]?.key.trim() && !currentSpecs[index]?.value.trim()) {
+          currentSpecs.splice(index, 1, ...parsed);
+        } else {
+          currentSpecs.splice(index + 1, 0, ...parsed);
+        }
+        setFormData({ ...formData, specifications: currentSpecs });
+        setBulkSpecsSuccess(`⚡ Auto-converted ${parsed.length} specifications from clipboard!`);
+        setTimeout(() => setBulkSpecsSuccess(""), 5000);
+      }
     }
   };
 
@@ -345,45 +389,131 @@ export default function AdminDashboard() {
 
           {/* Specifications */}
           <div className="bg-[#1A1A1A] p-6 rounded-xl border border-[#333333]">
-            <h2 className="text-[#D2B48C] font-bold uppercase tracking-widest mb-4">Specifications</h2>
-            {formData.specifications.map((spec, i) => (
-              <div key={i} className="flex gap-2 mb-2">
-                <input
-                  type="text"
-                  value={spec.key}
-                  onChange={(e) => {
-                    const newSpecs = [...formData.specifications];
-                    newSpecs[i].key = e.target.value;
-                    setFormData({ ...formData, specifications: newSpecs });
-                  }}
-                  className="w-1/3 bg-[#0F0F0F] border border-[#333333] rounded p-3 text-[#E0E0E0] focus:border-[#D2B48C] focus:outline-none text-sm"
-                  placeholder="Key (e.g. Brand)"
-                />
-                <input
-                  type="text"
-                  value={spec.value}
-                  onChange={(e) => {
-                    const newSpecs = [...formData.specifications];
-                    newSpecs[i].value = e.target.value;
-                    setFormData({ ...formData, specifications: newSpecs });
-                  }}
-                  className="flex-1 bg-[#0F0F0F] border border-[#333333] rounded p-3 text-[#E0E0E0] focus:border-[#D2B48C] focus:outline-none text-sm"
-                  placeholder="Value (e.g. Daniel Klein)"
-                />
-                <button
-                  onClick={() => setFormData({ ...formData, specifications: formData.specifications.filter((_, idx) => idx !== i) })}
-                  className="p-3 bg-red-900/20 text-red-400 rounded hover:bg-red-900/40"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div>
+                <h2 className="text-[#D2B48C] font-bold uppercase tracking-widest text-base">Specifications</h2>
+                <p className="text-xs text-[#808080] mt-0.5">
+                  Paste specs from Flipkart / Myntra directly or import all at once
+                </p>
               </div>
-            ))}
-            <button
-              onClick={() => setFormData({ ...formData, specifications: [...formData.specifications, { key: "", value: "" }] })}
-              className="mt-2 flex items-center gap-2 text-[#D2B48C] text-sm hover:underline"
-            >
-              <Plus className="w-4 h-4" /> Add Specification
-            </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowBulkSpecs(!showBulkSpecs)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-[#8B5A2B]/20 border border-[#8B5A2B]/50 hover:bg-[#8B5A2B]/40 text-[#D2B48C] rounded text-xs font-semibold transition-colors"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-[#D2B48C]" />
+                  {showBulkSpecs ? "Close Smart Paste" : "⚡ Smart Paste / Bulk Import"}
+                </button>
+                {formData.specifications.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, specifications: [{ key: "", value: "" }] })}
+                    className="text-xs text-red-400 hover:text-red-300 px-2 py-1 transition-colors"
+                  >
+                    Clear All
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Smart Paste Collapsible Box */}
+            {showBulkSpecs && (
+              <div className="mb-5 p-4 rounded-lg bg-[#0F0F0F] border border-[#8B5A2B]/40 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium text-[#D2B48C] flex items-center gap-1.5">
+                    <Clipboard className="w-3.5 h-3.5" />
+                    Paste specifications here (Flipkart, Myntra, Amazon table or text):
+                  </span>
+                  <span className="text-[11px] text-[#808080]">Auto-detects Brand, Series, Type, etc.</span>
+                </div>
+                <textarea
+                  rows={6}
+                  value={bulkSpecsText}
+                  onChange={(e) => setBulkSpecsText(e.target.value)}
+                  placeholder="Paste copied specifications directly from Flipkart or Myntra here...&#10;e.g.&#10;Brand&#10;DANIEL KLEIN&#10;Watch Type&#10;Wrist Watch&#10;Display Type&#10;Analog"
+                  className="w-full bg-[#1A1A1A] border border-[#333333] rounded p-3 text-xs text-[#E0E0E0] focus:border-[#D2B48C] focus:outline-none font-mono"
+                />
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handleApplyBulkSpecs(false)}
+                    disabled={!bulkSpecsText.trim()}
+                    className="flex items-center gap-1.5 px-4 py-2 bg-[#8B5A2B] hover:bg-[#A06D3B] disabled:opacity-50 text-black font-semibold rounded text-xs transition-colors"
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    Import & Replace
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleApplyBulkSpecs(true)}
+                    disabled={!bulkSpecsText.trim()}
+                    className="flex items-center gap-1.5 px-4 py-2 bg-[#2A2A2A] hover:bg-[#333333] disabled:opacity-50 text-[#D2B48C] border border-[#444] rounded text-xs transition-colors"
+                  >
+                    + Append to Existing
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {bulkSpecsSuccess && (
+              <div className="mb-4 p-2.5 bg-green-950/40 border border-green-800/60 rounded text-green-400 text-xs flex items-center gap-2">
+                <Check className="w-4 h-4" />
+                {bulkSpecsSuccess}
+              </div>
+            )}
+
+            <div className="space-y-2">
+              {formData.specifications.map((spec, i) => (
+                <div key={i} className="flex gap-2 items-center">
+                  <input
+                    type="text"
+                    value={spec.key}
+                    onPaste={(e) => handleSpecPaste(e, i)}
+                    onChange={(e) => {
+                      const newSpecs = [...formData.specifications];
+                      newSpecs[i].key = e.target.value;
+                      setFormData({ ...formData, specifications: newSpecs });
+                    }}
+                    className="w-1/3 bg-[#0F0F0F] border border-[#333333] rounded p-3 text-[#E0E0E0] focus:border-[#D2B48C] focus:outline-none text-sm"
+                    placeholder="Key (e.g. Brand)"
+                  />
+                  <input
+                    type="text"
+                    value={spec.value}
+                    onPaste={(e) => handleSpecPaste(e, i)}
+                    onChange={(e) => {
+                      const newSpecs = [...formData.specifications];
+                      newSpecs[i].value = e.target.value;
+                      setFormData({ ...formData, specifications: newSpecs });
+                    }}
+                    className="flex-1 bg-[#0F0F0F] border border-[#333333] rounded p-3 text-[#E0E0E0] focus:border-[#D2B48C] focus:outline-none text-sm"
+                    placeholder="Value (e.g. Daniel Klein)"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setFormData({ ...formData, specifications: formData.specifications.filter((_, idx) => idx !== i) })}
+                    className="p-3 bg-red-900/20 text-red-400 rounded hover:bg-red-900/40 transition-colors"
+                    title="Delete row"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-4 mt-3">
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, specifications: [...formData.specifications, { key: "", value: "" }] })}
+                className="flex items-center gap-2 text-[#D2B48C] text-sm hover:underline"
+              >
+                <Plus className="w-4 h-4" /> Add Specification
+              </button>
+              <span className="text-xs text-[#808080]">
+                Tip: Paste multiple lines directly into any box to auto-convert!
+              </span>
+            </div>
           </div>
 
           {/* Affiliates & Ratings */}

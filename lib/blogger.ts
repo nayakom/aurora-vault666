@@ -1,4 +1,5 @@
 import { Product } from '../data/products';
+import { parseBulkSpecifications } from './specsParser';
 
 const BLOGGER_API_KEY = process.env.BLOGGER_API_KEY;
 const BLOGGER_BLOG_ID = process.env.BLOGGER_BLOG_ID;
@@ -153,13 +154,14 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
       if (parsedFeatures) features = parsedFeatures;
       if (parsedWarranty) warranty = parsedWarranty;
       
-      // Parse manual specifications (e.g., Brand: Daniel Klein)
-      for (let line of specsLines) {
-        if (line.includes(':')) {
-           const [key, ...val] = line.split(':');
-           if (key && val.length > 0) {
-             specifications[key.trim()] = val.join(':').trim();
-           }
+      // Parse manual specifications (e.g., Brand: Daniel Klein or alternating Flipkart lines)
+      if (specsLines.length > 0) {
+        const specsText = specsLines.join('\n');
+        const parsed = parseBulkSpecifications(specsText);
+        for (const item of parsed) {
+          if (item.key && item.value) {
+            specifications[item.key] = item.value;
+          }
         }
       }
 
