@@ -117,10 +117,22 @@ export default function Home() {
           >
             <MouseGlow />
             <IlluminatiEye />
-            
             {/* Foreground Content */}
             <div className="relative z-10">
-              <Navbar onHomeClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+              <Navbar 
+                onLogoClick={() => {
+                  try {
+                    sessionStorage.removeItem("aurora_intro_completed");
+                    sessionStorage.removeItem("aurora_return_to_vault");
+                  } catch (e) {}
+                  isSpaInitialized = false;
+                  window.scrollTo({ top: 0, behavior: "instant" });
+                  setShowMainSite(false);
+                }}
+                onHomeClick={() => { 
+                  window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                }} 
+              />
               <HeroSection />
               <Suspense fallback={<div className="text-center py-20 text-[#D2B48C]">Loading Vault...</div>}>
                 <div id="vault" className="scroll-mt-20">

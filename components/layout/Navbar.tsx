@@ -9,9 +9,10 @@ import ThemeToggle from '../ui/ThemeToggle';
 
 interface NavbarProps {
   onHomeClick?: () => void;
+  onLogoClick?: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
+const Navbar: React.FC<NavbarProps> = ({ onHomeClick, onLogoClick }) => {
   const [scrolled, setScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [expandedMobileCategory, setExpandedMobileCategory] = useState<string | null>(null);
@@ -36,9 +37,31 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
   const router = useRouter();
   const pathname = usePathname();
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+
+    if (typeof window !== 'undefined') {
+      try {
+        sessionStorage.removeItem('aurora_intro_completed');
+        sessionStorage.removeItem('aurora_return_to_vault');
+      } catch (err) {}
+    }
+
+    if (pathname === '/') {
+      if (onLogoClick) {
+        onLogoClick();
+      } else {
+        window.location.href = '/';
+      }
+    } else {
+      window.location.href = '/';
+    }
+  };
+
   const handleHomeClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsMobileMenuOpen(false); // Close mobile menu if open
+    setIsMobileMenuOpen(false);
 
     if (onHomeClick) {
       onHomeClick();
@@ -47,11 +70,9 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
     setSearchQuery('');
 
     if (pathname === '/') {
-      // Clear filter and scroll to very top
       router.push('/', { scroll: false });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      // If on another page, go back to the start of the home page
       router.push('/');
     }
   };
@@ -84,7 +105,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
-        <Logo onClick={handleHomeClick} />
+        <Logo onClick={handleLogoClick} />
 
         {/* Links */}
         <div className="hidden md:flex gap-5 items-center mt-2">
