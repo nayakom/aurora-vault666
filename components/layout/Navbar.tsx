@@ -68,18 +68,18 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
 
   return (
     <motion.nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b ${
+      className={`fixed top-0 left-0 w-full z-50 transition-[background-color,border-color,box-shadow] duration-300 border-b ${
         pathname !== '/' 
           ? scrolled
-            ? 'bg-[#030303]/95 backdrop-blur-xl border-[#8B5A2B]/40 py-3 shadow-[0_5px_30px_rgba(139,90,43,0.2)]'
-            : 'bg-[#050505]/80 backdrop-blur-lg border-[#8B5A2B]/20 py-5 shadow-[0_15px_40px_rgba(0,0,0,0.6)]'
+            ? 'bg-[#030303]/95 backdrop-blur-xl border-[#8B5A2B]/40 py-3.5 shadow-[0_5px_30px_rgba(139,90,43,0.2)]'
+            : 'bg-[#050505]/95 backdrop-blur-lg border-[#8B5A2B]/20 py-3.5 shadow-[0_15px_40px_rgba(0,0,0,0.6)]'
           : scrolled 
-            ? 'bg-[#030303]/90 backdrop-blur-md border-[#8B5A2B]/20 py-4 shadow-lg' 
-            : 'bg-transparent border-transparent py-6'
+            ? 'bg-[#030303]/90 backdrop-blur-md border-[#8B5A2B]/20 py-3.5 shadow-lg' 
+            : 'bg-transparent border-transparent py-4 sm:py-5'
         }`}
-      initial={{ y: -100 }}
+      initial={false}
       animate={{ y: 0 }}
-      transition={{ duration: 0.8, delay: 1 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}

@@ -54,10 +54,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       {/* Decorative top border */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#8B5A2B]/50 to-transparent"></div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-36 lg:pt-48 pb-24">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-24 sm:pt-28 lg:pt-36 pb-24">
         
         {/* Premium Breadcrumb & Back to Vault Header */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <BackToVault />
           <div className="flex items-center gap-3 opacity-80">
             <div className="h-[1px] w-8 bg-[#8B5A2B]/40 hidden sm:block"></div>
@@ -68,79 +68,55 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-start">
+        {/* Mobile Product Header (Shown above images on mobile) */}
+        <div className="block lg:hidden mb-6">
+          <h1 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#D2B48C] via-[#8B5A2B] to-[#D2B48C] leading-tight mb-4 tracking-[0.05em] font-display uppercase drop-shadow-[0_0_15px_rgba(139,90,43,0.3)]">
+            {product.name}
+          </h1>
           
-          {/* Left Column: Image Gallery & Specifications */}
-          <div className="flex flex-col gap-16 w-full max-w-md mx-auto lg:mx-0">
+          <div className="flex flex-wrap items-center gap-3 pb-6 border-b border-[#8B5A2B]/20">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#8B5A2B]/10 border border-[#8B5A2B]/40 text-[#8B5A2B] font-bold text-xs tracking-[0.2em] uppercase">
+              <svg viewBox="0 0 24 24" fill="none" className="w-3.5 h-3.5">
+                <path d="M12 2L2 20H22L12 2Z" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="12" cy="14" r="2" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+              Level 4 Artifact
+            </div>
+            <div className="flex items-center gap-2">
+              {renderStars(product.rating)}
+              <span className="text-white font-mono text-xs tracking-widest">({product.rating} / 5.0)</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-20 items-start">
+          
+          {/* Left Column: Image Gallery only */}
+          <div className="w-full max-w-md mx-auto lg:mx-0 lg:sticky lg:top-24">
             <ProductGallery images={product.images} productName={product.name} />
-            
-            {/* Specifications Accordion */}
-            {(() => {
-              let displaySpecs: { key: string; value: string }[] = [];
-              if (product.specifications && Object.keys(product.specifications).length > 0) {
-                const entries = Object.entries(product.specifications);
-                // Auto-expand if saved as a single huge block of text (like in Image 3)
-                if (
-                  entries.length === 1 &&
-                  typeof entries[0][1] === 'string' &&
-                  (entries[0][1].includes('\n') || entries[0][1].length > 60)
-                ) {
-                  const reparsed = parseBulkSpecifications(entries[0][1]);
-                  if (reparsed.length > 1) {
-                    displaySpecs = reparsed;
-                  } else {
-                    displaySpecs = [{ key: entries[0][0], value: String(entries[0][1]) }];
-                  }
-                } else {
-                  displaySpecs = entries.map(([k, v]) => ({ key: k, value: String(v) }));
-                }
-              }
-
-              if (displaySpecs.length === 0) return null;
-
-              return (
-                <Accordion title="Specifications" defaultOpen={true}>
-                  <div className="p-5 sm:p-6 bg-[#080808]/90">
-                    <div className="text-[#808080] font-mono text-xs uppercase tracking-wider mb-4 pb-2 border-b border-[#8B5A2B]/20 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 bg-[#8B5A2B] rounded-full"></span>
-                      General
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
-                      {displaySpecs.map((item, idx) => (
-                        <div key={`${item.key}-${idx}`} className="border-b border-[#8B5A2B]/20 pb-3 group">
-                          <span className="block text-[#808080] text-[11px] sm:text-xs font-normal tracking-wide capitalize mb-1">
-                            {item.key}
-                          </span>
-                          <span className="block text-[#E0E0E0] group-hover:text-[#D2B48C] transition-colors text-xs sm:text-sm font-medium leading-snug break-words">
-                            {item.value}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </Accordion>
-              );
-            })()}
           </div>
 
-          {/* Right Column: Product Info */}
+          {/* Right Column: Product Info, Description, and Specifications */}
           <div className="flex flex-col">
-            <h1 className="text-2xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#D2B48C] via-[#8B5A2B] to-[#D2B48C] leading-tight mb-6 tracking-[0.1em] font-display uppercase drop-shadow-[0_0_15px_rgba(139,90,43,0.3)]">
-              {product.name}
-            </h1>
-            
-            {/* Aurora Internal Rating */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-10 pb-8 border-b border-[#8B5A2B]/20">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#8B5A2B]/10 border border-[#8B5A2B]/40 text-[#8B5A2B] font-bold text-xs tracking-[0.3em] uppercase w-max">
-                <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
-                  <path d="M12 2L2 20H22L12 2Z" stroke="currentColor" strokeWidth="1.5" />
-                  <circle cx="12" cy="14" r="2" stroke="currentColor" strokeWidth="1.5" />
-                </svg>
-                Level 4 Artifact
-              </div>
-              <div className="flex items-center gap-2">
-                {renderStars(product.rating)}
-                <span className="text-white font-mono text-sm tracking-widest">{product.rating} / 5.0</span>
+            {/* Desktop Title & Rating */}
+            <div className="hidden lg:block">
+              <h1 className="text-3xl lg:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#D2B48C] via-[#8B5A2B] to-[#D2B48C] leading-tight mb-6 tracking-[0.1em] font-display uppercase drop-shadow-[0_0_15px_rgba(139,90,43,0.3)]">
+                {product.name}
+              </h1>
+              
+              {/* Aurora Internal Rating */}
+              <div className="flex items-center gap-4 mb-10 pb-8 border-b border-[#8B5A2B]/20">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#8B5A2B]/10 border border-[#8B5A2B]/40 text-[#8B5A2B] font-bold text-xs tracking-[0.3em] uppercase w-max">
+                  <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4">
+                    <path d="M12 2L2 20H22L12 2Z" stroke="currentColor" strokeWidth="1.5" />
+                    <circle cx="12" cy="14" r="2" stroke="currentColor" strokeWidth="1.5" />
+                  </svg>
+                  Level 4 Artifact
+                </div>
+                <div className="flex items-center gap-2">
+                  {renderStars(product.rating)}
+                  <span className="text-white font-mono text-sm tracking-widest">{product.rating} / 5.0</span>
+                </div>
               </div>
             </div>
 
@@ -188,6 +164,56 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 </div>
               </div>
             )}
+
+            {/* Specifications Accordion (Placed right after Description / Features / Warranty) */}
+            {(() => {
+              let displaySpecs: { key: string; value: string }[] = [];
+              if (product.specifications && Object.keys(product.specifications).length > 0) {
+                const entries = Object.entries(product.specifications);
+                // Auto-expand if saved as a single huge block of text
+                if (
+                  entries.length === 1 &&
+                  typeof entries[0][1] === 'string' &&
+                  (entries[0][1].includes('\n') || entries[0][1].length > 60)
+                ) {
+                  const reparsed = parseBulkSpecifications(entries[0][1]);
+                  if (reparsed.length > 1) {
+                    displaySpecs = reparsed;
+                  } else {
+                    displaySpecs = [{ key: entries[0][0], value: String(entries[0][1]) }];
+                  }
+                } else {
+                  displaySpecs = entries.map(([k, v]) => ({ key: k, value: String(v) }));
+                }
+              }
+
+              if (displaySpecs.length === 0) return null;
+
+              return (
+                <div className="mb-10">
+                  <Accordion title="Specifications" defaultOpen={true}>
+                    <div className="p-5 sm:p-6 bg-[#080808]/90">
+                      <div className="text-[#808080] font-mono text-xs uppercase tracking-wider mb-4 pb-2 border-b border-[#8B5A2B]/20 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 bg-[#8B5A2B] rounded-full"></span>
+                        General
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                        {displaySpecs.map((item, idx) => (
+                          <div key={`${item.key}-${idx}`} className="border-b border-[#8B5A2B]/20 pb-3 group">
+                            <span className="block text-[#808080] text-[11px] sm:text-xs font-normal tracking-wide capitalize mb-1">
+                              {item.key}
+                            </span>
+                            <span className="block text-[#E0E0E0] group-hover:text-[#D2B48C] transition-colors text-xs sm:text-sm font-medium leading-snug break-words">
+                              {item.value}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </Accordion>
+                </div>
+              );
+            })()}
           </div>
         </div>
 
