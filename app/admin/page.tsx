@@ -572,8 +572,20 @@ export default function AdminDashboard() {
 
           {/* Submit */}
           {message && (
-            <div className={`p-4 rounded text-sm ${message.includes('Error') ? 'bg-red-900/20 text-red-400' : 'bg-green-900/20 text-green-400'}`}>
-              {message}
+            <div className={`p-4 rounded text-sm ${message.includes('Error') ? 'bg-red-900/20 text-red-400 border border-red-500/30' : 'bg-green-900/20 text-green-400 border border-green-500/30'}`}>
+              <p>{message}</p>
+              {(message.toLowerCase().includes('authentication') || message.toLowerCase().includes('oauth')) && (
+                <div className="mt-3 pt-2 border-t border-red-500/20 flex flex-wrap items-center justify-between gap-2">
+                  <span className="text-xs text-[#E0E0E0]">Aapka login session expire ho chuka hai. Kripya Log Out karke dobara Google se Sign In karein:</span>
+                  <button
+                    type="button"
+                    onClick={() => signOut()}
+                    className="px-3 py-1.5 bg-red-600/40 hover:bg-red-600 text-white rounded text-xs font-bold uppercase tracking-wider transition-colors"
+                  >
+                    Log Out & Re-Login
+                  </button>
+                </div>
+              )}
             </div>
           )}
           <button
