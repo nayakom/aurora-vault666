@@ -154,7 +154,7 @@ export default function AdminDashboard() {
 
     setUploadingImage(true);
     try {
-      const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
+      const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY || "6800bf7ac23719514e09a3d219515ae2";
       
       // Upload all files concurrently
       const uploadPromises = imageFiles.map(async (file) => {
