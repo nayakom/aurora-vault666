@@ -187,6 +187,8 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
           affiliates.myntra = { platform: "Myntra", url: url, rating: customRating || 4.7, reviews: 920 };
         } else if (text.includes('meesho') || url.includes('meesho.')) {
           affiliates.meesho = { platform: "Meesho", url: url, rating: customRating || 4.4, reviews: 3100 };
+        } else if (text.includes('shopsy') || url.includes('shopsy.')) {
+          affiliates.shopsy = { platform: "Shopsy", url: url, rating: customRating || 4.5, reviews: 1950 };
         } else if (text.includes('flipkart') || url.includes('flipkart.') || url.includes('ekaro.in') || url.includes('fkrt.it')) {
           affiliates.flipkart = { platform: "Flipkart", url: url, rating: customRating || 4.6, reviews: 1820 };
         }

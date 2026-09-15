@@ -21,6 +21,7 @@ interface AdminFormData {
     flipkart: { url: string; rating: number | string };
     myntra: { url: string; rating: number | string };
     meesho: { url: string; rating: number | string };
+    shopsy: { url: string; rating: number | string };
   };
 }
 
@@ -50,6 +51,7 @@ export default function AdminDashboard() {
       flipkart: { url: "", rating: 4.6 },
       myntra: { url: "", rating: 4.7 },
       meesho: { url: "", rating: 4.4 },
+      shopsy: { url: "", rating: 4.5 },
     },
   });
 
@@ -75,6 +77,7 @@ export default function AdminDashboard() {
             flipkart: { url: product.affiliates?.flipkart?.url || "", rating: (product.affiliates?.flipkart?.rating && !isNaN(product.affiliates?.flipkart?.rating)) ? product.affiliates?.flipkart?.rating : 4.6 },
             myntra: { url: product.affiliates?.myntra?.url || "", rating: (product.affiliates?.myntra?.rating && !isNaN(product.affiliates?.myntra?.rating)) ? product.affiliates?.myntra?.rating : 4.7 },
             meesho: { url: product.affiliates?.meesho?.url || "", rating: (product.affiliates?.meesho?.rating && !isNaN(product.affiliates?.meesho?.rating)) ? product.affiliates?.meesho?.rating : 4.4 },
+            shopsy: { url: product.affiliates?.shopsy?.url || "", rating: (product.affiliates?.shopsy?.rating && !isNaN(product.affiliates?.shopsy?.rating)) ? product.affiliates?.shopsy?.rating : 4.5 },
           }
         });
         setEditMode(product.id);
@@ -520,7 +523,7 @@ export default function AdminDashboard() {
           <div className="bg-[#1A1A1A] p-6 rounded-xl border border-[#333333]">
             <h2 className="text-[#D2B48C] font-bold uppercase tracking-widest mb-4">Affiliate Links & Ratings</h2>
             <div className="space-y-4">
-              {['amazon', 'flipkart', 'myntra', 'meesho'].map((platform) => (
+              {['amazon', 'flipkart', 'myntra', 'meesho', 'shopsy'].map((platform) => (
                 <div key={platform} className="p-4 border border-[#333333] rounded bg-[#0F0F0F]">
                   <h3 className="capitalize font-bold text-[#D2B48C] mb-2">{platform}</h3>
                   <div className="flex gap-4">

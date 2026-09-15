@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from "next/link";
-import { FaAmazon, FaShoppingBag, FaStore, FaTshirt, FaStar, FaStarHalfAlt, FaStar as FaStarFull } from 'react-icons/fa';
+import { FaAmazon, FaShoppingBag, FaStore, FaTshirt, FaShoppingBasket, FaStar, FaStarHalfAlt, FaStar as FaStarFull } from 'react-icons/fa';
 import { notFound } from "next/navigation";
 import Footer from "@/components/layout/Footer";
 import { getProductsFromBlogger } from "@/lib/blogger";
@@ -292,6 +292,30 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                       <div className="flex items-center gap-2 text-xs tracking-widest whitespace-nowrap">
                         {renderStars(product.affiliates.meesho.rating)}
                         <span className="text-[#D2B48C] font-mono font-bold ml-1">({product.affiliates.meesho.rating})</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative z-10 flex items-center justify-center px-8 py-3 bg-gradient-to-r from-[#8B5A2B] to-[#5C4033] text-[#030303] group-hover:from-[#D2B48C] group-hover:to-[#8B5A2B] group-hover:shadow-[0_0_20px_rgba(210,180,140,0.4)] transition-all duration-500 tracking-[0.3em] font-bold uppercase text-[10px] sm:text-xs overflow-hidden border border-[#D2B48C]/50 rounded-sm">
+                    <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
+                    <span className="relative z-10 drop-shadow-sm">Procure</span>
+                  </div>
+                </a>
+              )}
+
+              {product.affiliates.shopsy && (
+                <a href={product.affiliates.shopsy.url} target="_blank" rel="noopener noreferrer" className="group flex flex-col sm:flex-row items-center justify-between p-6 bg-[#0a0a0a] border border-[#8B5A2B]/30 hover:border-[#8B5A2B] hover:shadow-[0_0_30px_rgba(139,90,43,0.15)] transition-all duration-300 relative overflow-hidden text-center sm:text-left gap-6 sm:gap-4">
+                  <div className="absolute inset-0 bg-[#8B5A2B]/5 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
+                  
+                  <div className="relative z-10 flex flex-col sm:flex-row items-center gap-6">
+                    <div className="w-16 h-16 flex items-center justify-center bg-[#8B5A2B]/10 rounded-full border border-[#8B5A2B]/20 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
+                      <FaShoppingBasket className="text-3xl text-[#8B5A2B]" />
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-bold text-white tracking-[0.1em] mb-1 uppercase font-display">Shopsy</h4>
+                      <div className="flex items-center gap-2 text-xs tracking-widest whitespace-nowrap">
+                        {renderStars(product.affiliates.shopsy.rating)}
+                        <span className="text-[#D2B48C] font-mono font-bold ml-1">({product.affiliates.shopsy.rating})</span>
                       </div>
                     </div>
                   </div>

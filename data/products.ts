@@ -21,6 +21,7 @@ export interface Product {
     flipkart?: AffiliateLink;
     meesho?: AffiliateLink;
     myntra?: AffiliateLink;
+    shopsy?: AffiliateLink;
   };
   rating: number;
   labels?: string[];

@@ -66,7 +66,7 @@ export async function publishToBlogger(formData: any, accessToken: string, postI
     if (formData.rating) {
       htmlContent += `  <div data-product-rating="${formData.rating}"></div>\n`;
     }
-    const platforms = ['amazon', 'flipkart', 'myntra', 'meesho'];
+    const platforms = ['amazon', 'flipkart', 'myntra', 'meesho', 'shopsy'];
     platforms.forEach((platform) => {
       const data = formData.affiliates[platform];
       if (data && data.url) {
