@@ -114,7 +114,7 @@ export default function AdminDashboard() {
     setMessage("");
     try {
       const sanitizedAffiliates: any = {};
-      const platforms = ['amazon', 'flipkart', 'myntra', 'meesho'];
+      const platforms = ['amazon', 'flipkart', 'myntra', 'meesho', 'shopsy'];
       platforms.forEach((platform) => {
         const item = (formData.affiliates as any)[platform] || {};
         sanitizedAffiliates[platform] = {

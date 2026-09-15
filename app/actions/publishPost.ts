@@ -70,7 +70,7 @@ export async function publishToBlogger(formData: any, accessToken: string, postI
     platforms.forEach((platform) => {
       const data = formData.affiliates[platform];
       if (data && data.url) {
-        htmlContent += `  <a href="${data.url}" data-platform="${platform}" data-rating="${data.rating}">[${platform.toUpperCase()}] ${platform.charAt(0).toUpperCase() + platform.slice(1)}</a><br/>\n`;
+        htmlContent += `  <a href="${data.url}" data-platform="${platform}" data-rating="${data.rating}">${platform.charAt(0).toUpperCase() + platform.slice(1)}</a><br/>\n`;
       }
     });
     htmlContent += `</div>\n`;

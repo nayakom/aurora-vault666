@@ -19,5 +19,7 @@ export interface Product {
         meesho?: string;
 
         myntra?: string;
+
+        shopsy?: string;
     };
 }
