@@ -18,6 +18,12 @@
   background-color: var(--color-aurora-bg);
   color: var(--color-aurora-text);
   scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+[data-theme="light"],
+html.light {
+  color-scheme: light;
 }
 
 body {
@@ -25,6 +31,7 @@ body {
   overflow-x: hidden;
   background-color: var(--color-aurora-bg);
   color: var(--color-aurora-text);
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 ::selection {
@@ -35,7 +42,7 @@ body {
 /* Custom Utilities for the 'Aura' effect */
 @layer utilities {
   .aura-glow {
-    box-shadow: 0 0 20px 2px rgba(139, 90, 43, 0.15); /* Gold glow */
+    box-shadow: 0 0 20px 2px rgba(139, 90, 43, 0.15);
     transition: box-shadow 0.4s ease-out;
   }
   .aura-glow:hover {
@@ -54,4 +61,125 @@ body {
   100% {
     transform: translateX(100%);
   }
+}
+
+/* ========================================================
+   SOLAR SANCTUARY - LUXURY ROYAL LIGHT MODE
+   ======================================================== */
+[data-theme="light"] body,
+html.light body {
+  background-color: #FAF7F2;
+  color: #2C2621;
+}
+
+[data-theme="light"] ::selection,
+html.light ::selection {
+  background-color: #D2B48C;
+  color: #12100E;
+}
+
+/* Surfaces and Backgrounds */
+[data-theme="light"] .bg-\[\#030303\],
+html.light .bg-\[\#030303\] {
+  background-color: #FAF7F2 !important;
+}
+
+[data-theme="light"] .bg-\[\#050505\],
+html.light .bg-\[\#050505\] {
+  background-color: #F5EFE6 !important;
+}
+
+[data-theme="light"] .bg-\[\#080808\],
+html.light .bg-\[\#080808\] {
+  background-color: #FFFFFF !important;
+}
+
+[data-theme="light"] .bg-\[\#0a0a0a\],
+html.light .bg-\[\#0a0a0a\] {
+  background-color: #FFFFFF !important;
+}
+
+[data-theme="light"] .bg-\[\#0d0d0d\],
+html.light .bg-\[\#0d0d0d\] {
+  background-color: #FDFBF7 !important;
+}
+
+[data-theme="light"] .bg-\[\#0F0F0F\],
+html.light .bg-\[\#0F0F0F\] {
+  background-color: #F2ECE1 !important;
+}
+
+[data-theme="light"] .bg-\[\#1A1A1A\],
+html.light .bg-\[\#1A1A1A\] {
+  background-color: #FFFFFF !important;
+}
+
+/* Glass Card in Light Mode */
+[data-theme="light"] .glass-card,
+html.light .glass-card {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(184, 134, 11, 0.22) !important;
+  box-shadow: 0 10px 30px rgba(184, 134, 11, 0.08) !important;
+}
+
+[data-theme="light"] .glass-card:hover,
+html.light .glass-card:hover {
+  border-color: rgba(184, 134, 11, 0.55) !important;
+  box-shadow: 0 16px 40px rgba(184, 134, 11, 0.16) !important;
+}
+
+/* Text Adaptations */
+[data-theme="light"] .text-white,
+html.light .text-white {
+  color: #12100E !important;
+}
+
+[data-theme="light"] .text-\[\#E0E0E0\],
+html.light .text-\[\#E0E0E0\] {
+  color: #2C2621 !important;
+}
+
+[data-theme="light"] .text-\[\#808080\],
+html.light .text-\[\#808080\] {
+  color: #6B6259 !important;
+}
+
+[data-theme="light"] .text-\[\#D2B48C\],
+html.light .text-\[\#D2B48C\] {
+  color: #8B5A2B !important;
+}
+
+/* Borders */
+[data-theme="light"] .border-\[\#333333\],
+html.light .border-\[\#333333\] {
+  border-color: #E2D9CC !important;
+}
+
+[data-theme="light"] .border-\[\#1a1a1a\],
+html.light .border-\[\#1a1a1a\] {
+  border-color: #E8E0D5 !important;
+}
+
+/* Inputs & Forms in Light Mode */
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+html.light input,
+html.light textarea {
+  color: #12100E !important;
+}
+
+/* Top Navbar in Light Mode */
+[data-theme="light"] nav,
+html.light nav {
+  background-color: rgba(250, 247, 242, 0.94) !important;
+  border-color: rgba(184, 134, 11, 0.25) !important;
+  box-shadow: 0 4px 25px rgba(184, 134, 11, 0.08) !important;
+}
+
+/* Dropdown menus in Light Mode */
+[data-theme="light"] .group-hover\:visible .bg-\[\#030303\]\/95,
+html.light .group-hover\:visible .bg-\[\#030303\]\/95 {
+  background-color: #FFFFFF !important;
+  border-color: rgba(184, 134, 11, 0.28) !important;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12) !important;
 }

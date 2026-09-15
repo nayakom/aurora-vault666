@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import Logo from '../ui/Logo';
+import ThemeToggle from '../ui/ThemeToggle';
 
 interface NavbarProps {
   onHomeClick?: () => void;
@@ -228,17 +229,26 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
               </svg>
             </button>
           </form>
+
+          {/* Desktop Celestial Theme Toggle */}
+          <div className="ml-2">
+            <ThemeToggle />
+          </div>
         </div>
 
-        {/* Mobile Hamburger Toggle */}
-        <button 
-          className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 z-50 relative group"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          <span className={`h-[2px] w-6 bg-[#8B5A2B] transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-[8px]' : ''}`}></span>
-          <span className={`h-[2px] w-6 bg-[#8B5A2B] transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
-          <span className={`h-[2px] w-6 bg-[#8B5A2B] transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-[8px]' : ''}`}></span>
-        </button>
+        {/* Mobile Header Actions (Theme Toggle + Hamburger) */}
+        <div className="md:hidden flex items-center gap-3">
+          <ThemeToggle />
+          <button 
+            className="flex flex-col justify-center items-center w-10 h-10 gap-1.5 z-50 relative group"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Navigation Menu"
+          >
+            <span className={`h-[2px] w-6 bg-[#8B5A2B] transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-[8px]' : ''}`}></span>
+            <span className={`h-[2px] w-6 bg-[#8B5A2B] transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`h-[2px] w-6 bg-[#8B5A2B] transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-[8px]' : ''}`}></span>
+          </button>
+        </div>
 
       </div>
 
@@ -252,9 +262,12 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick }) => {
             className="absolute top-full left-0 w-full h-[100dvh] pb-32 bg-[#030303]/95 backdrop-blur-xl z-40 flex flex-col p-6 overflow-y-auto"
           >
             <div className="flex flex-col gap-6 mt-4">
-              <Link href="/" onClick={handleHomeClick} className="text-2xl font-black text-[#D2B48C] uppercase tracking-widest border-b border-[#8B5A2B]/20 pb-4">
-                HOME
-              </Link>
+              <div className="flex items-center justify-between border-b border-[#8B5A2B]/20 pb-4">
+                <Link href="/" onClick={handleHomeClick} className="text-2xl font-black text-[#D2B48C] uppercase tracking-widest">
+                  HOME
+                </Link>
+                <ThemeToggle showLabel />
+              </div>
               
               {/* Mobile Search Bar */}
               <form onSubmit={handleSearch} className="relative w-full mb-2">
