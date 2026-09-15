@@ -1,11 +1,20 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
+// Ensure NEXTAUTH_URL is automatically set for Vercel production
+if (!process.env.NEXTAUTH_URL) {
+  if (process.env.VERCEL_URL) {
+    process.env.NEXTAUTH_URL = `https://${process.env.VERCEL_URL}`;
+  } else if (process.env.NODE_ENV === "production") {
+    process.env.NEXTAUTH_URL = "https://aurora-vault666.vercel.app";
+  }
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
       authorization: {
         params: {
           prompt: "consent",
@@ -19,18 +28,15 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ user }) {
-      // We will restrict this to your email later for security
       return true;
     },
     async jwt({ token, account }) {
-      // Store the Google access token in the JWT token
       if (account) {
         token.accessToken = account.access_token;
       }
       return token;
     },
     async session({ session, token }) {
-      // Send properties to the client
       (session as any).accessToken = token.accessToken;
       return session;
     },
