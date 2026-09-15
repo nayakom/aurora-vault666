@@ -131,24 +131,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           animate={{ scale: isHovered ? 1.05 : 1 }}
           transition={{ duration: 0.8 }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent z-20 pointer-events-none" />
-
-
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent z-20 pointer-events-none dark:block hidden" />
       </a>
 
       {/* Content */}
       <div className="relative p-3 md:p-6 bg-transparent z-10">
         <a href={`/blog/${product.id}`} onClick={handleNavigate} className="block cursor-pointer">
-          <h3 className="text-sm md:text-xl font-bold text-[#D2B48C] mb-1 md:mb-2 uppercase tracking-wide font-display hover:text-white transition-colors">{product.name}</h3>
+          <h3 className="text-sm md:text-xl font-bold mb-1 md:mb-2 uppercase tracking-wide font-display text-[#1A1A1A] dark:text-[#D2B48C] hover:text-[#8B5A2B] dark:hover:text-white transition-colors">{product.name}</h3>
         </a>
-        <p className="text-[#808080] text-[10px] md:text-sm mb-3 md:mb-6 line-clamp-1 md:line-clamp-2 font-light tracking-wide whitespace-pre-wrap">{product.description}</p>
+        <p className="text-[#6B6259] dark:text-[#808080] text-[10px] md:text-sm mb-3 md:mb-6 line-clamp-1 md:line-clamp-2 font-light tracking-wide whitespace-pre-wrap">{product.description}</p>
 
         {/* Explore Button */}
         <div className="mt-4 md:mt-8">
-          <a href={`/blog/${product.id}`} onClick={handleNavigate} className="block w-full py-2 md:py-3 text-center border border-[#8B5A2B]/40 text-[#8B5A2B] text-[9px] md:text-xs uppercase tracking-[1px] md:tracking-[4px] font-bold hover:bg-[#8B5A2B] hover:text-[#030303] transition-all duration-300 relative overflow-hidden group/btn cursor-pointer">
-            <span className="relative z-10 hidden md:inline">UNVEIL THE SECRET</span>
-            <span className="relative z-10 md:hidden">UNVEIL</span>
-            <div className="absolute inset-0 bg-[#8B5A2B] transform -translate-x-full group-hover/btn:translate-x-0 transition-transform duration-500 ease-out z-0"></div>
+          <a 
+            href={`/blog/${product.id}`} 
+            onClick={handleNavigate} 
+            className="block w-full py-2.5 md:py-3 text-center border border-[#8B5A2B] text-[#8B5A2B] text-[9px] md:text-xs uppercase tracking-[2px] md:tracking-[4px] font-bold hover:bg-[#8B5A2B] hover:text-white dark:hover:text-[#030303] transition-all duration-300 relative overflow-hidden cursor-pointer"
+          >
+            <span className="hidden md:inline">UNVEIL THE SECRET</span>
+            <span className="md:hidden">UNVEIL</span>
           </a>
         </div>
 

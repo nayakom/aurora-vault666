@@ -67,9 +67,13 @@ body {
    SOLAR SANCTUARY - LUXURY ROYAL LIGHT MODE
    ======================================================== */
 [data-theme="light"] body,
-html.light body {
-  background-color: #FAF7F2;
-  color: #2C2621;
+html.light body,
+[data-theme="light"] main,
+html.light main,
+[data-theme="light"] #vault,
+html.light #vault {
+  background-color: #FAF7F2 !important;
+  color: #2C2621 !important;
 }
 
 [data-theme="light"] ::selection,
@@ -86,7 +90,7 @@ html.light .bg-\[\#030303\] {
 
 [data-theme="light"] .bg-\[\#050505\],
 html.light .bg-\[\#050505\] {
-  background-color: #F5EFE6 !important;
+  background-color: #FAF8F5 !important;
 }
 
 [data-theme="light"] .bg-\[\#080808\],
@@ -101,12 +105,12 @@ html.light .bg-\[\#0a0a0a\] {
 
 [data-theme="light"] .bg-\[\#0d0d0d\],
 html.light .bg-\[\#0d0d0d\] {
-  background-color: #FDFBF7 !important;
+  background-color: #FFFFFF !important;
 }
 
 [data-theme="light"] .bg-\[\#0F0F0F\],
 html.light .bg-\[\#0F0F0F\] {
-  background-color: #F2ECE1 !important;
+  background-color: #F5EFE6 !important;
 }
 
 [data-theme="light"] .bg-\[\#1A1A1A\],
@@ -117,15 +121,45 @@ html.light .bg-\[\#1A1A1A\] {
 /* Glass Card in Light Mode */
 [data-theme="light"] .glass-card,
 html.light .glass-card {
-  background: rgba(255, 255, 255, 0.85) !important;
-  border-color: rgba(184, 134, 11, 0.22) !important;
-  box-shadow: 0 10px 30px rgba(184, 134, 11, 0.08) !important;
+  background: #FFFFFF !important;
+  border: 1px solid rgba(184, 134, 11, 0.22) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05) !important;
 }
 
 [data-theme="light"] .glass-card:hover,
 html.light .glass-card:hover {
-  border-color: rgba(184, 134, 11, 0.55) !important;
-  box-shadow: 0 16px 40px rgba(184, 134, 11, 0.16) !important;
+  border-color: rgba(184, 134, 11, 0.6) !important;
+  box-shadow: 0 16px 40px rgba(184, 134, 11, 0.12) !important;
+}
+
+/* Card titles: crisp, readable, high-fashion charcoal */
+[data-theme="light"] .glass-card h3,
+html.light .glass-card h3 {
+  color: #12100E !important;
+}
+
+[data-theme="light"] .glass-card h3:hover,
+html.light .glass-card h3:hover {
+  color: #8B5A2B !important;
+}
+
+/* Card description */
+[data-theme="light"] .glass-card p,
+html.light .glass-card p {
+  color: #6B6259 !important;
+}
+
+/* Card button */
+[data-theme="light"] .glass-card a[class*="border"],
+html.light .glass-card a[class*="border"] {
+  border-color: #8B5A2B !important;
+  color: #8B5A2B !important;
+}
+
+[data-theme="light"] .glass-card a[class*="border"]:hover,
+html.light .glass-card a[class*="border"]:hover {
+  background-color: #8B5A2B !important;
+  color: #FFFFFF !important;
 }
 
 /* Text Adaptations */
@@ -160,20 +194,34 @@ html.light .border-\[\#1a1a1a\] {
   border-color: #E8E0D5 !important;
 }
 
-/* Inputs & Forms in Light Mode */
-[data-theme="light"] input,
-[data-theme="light"] textarea,
-html.light input,
-html.light textarea {
-  color: #12100E !important;
-}
-
 /* Top Navbar in Light Mode */
 [data-theme="light"] nav,
 html.light nav {
-  background-color: rgba(250, 247, 242, 0.94) !important;
-  border-color: rgba(184, 134, 11, 0.25) !important;
-  box-shadow: 0 4px 25px rgba(184, 134, 11, 0.08) !important;
+  background-color: rgba(250, 247, 242, 0.96) !important;
+  border-bottom-color: rgba(184, 134, 11, 0.25) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] nav a,
+html.light nav a {
+  color: #2C2621 !important;
+}
+
+[data-theme="light"] nav a:hover,
+html.light nav a:hover {
+  color: #8B5A2B !important;
+}
+
+[data-theme="light"] nav input,
+html.light nav input {
+  background-color: #FFFFFF !important;
+  border-color: rgba(184, 134, 11, 0.35) !important;
+  color: #12100E !important;
+}
+
+[data-theme="light"] nav input::placeholder,
+html.light nav input::placeholder {
+  color: #888888 !important;
 }
 
 /* Dropdown menus in Light Mode */
@@ -182,4 +230,11 @@ html.light .group-hover\:visible .bg-\[\#030303\]\/95 {
   background-color: #FFFFFF !important;
   border-color: rgba(184, 134, 11, 0.28) !important;
   box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Footer in Light Mode */
+[data-theme="light"] footer,
+html.light footer {
+  background-color: #F5EFE6 !important;
+  border-top-color: rgba(184, 134, 11, 0.22) !important;
 }

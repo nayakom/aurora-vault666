@@ -97,7 +97,7 @@ export default function Home() {
   if (!mounted) return <main className="min-h-screen bg-[#030303]" />; // Prevent hydration mismatch flash
 
   return (
-    <main className="min-h-screen bg-[var(--color-aurora-bg)] text-[var(--color-aurora-text)] selection:bg-[#8B5A2B] selection:text-[#000]">
+    <main className="min-h-screen bg-[#030303] text-[#e0e0e0] transition-colors duration-500 selection:bg-[#8B5A2B] selection:text-[#000]">
       <AnimatePresence>
         {!showMainSite ? (
           <motion.div
