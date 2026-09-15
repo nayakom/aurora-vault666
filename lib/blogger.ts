@@ -180,17 +180,26 @@ export async function getProductsFromBlogger(): Promise<Product[]> {
         
         const url = hrefMatch[1];
         const customRating = ratingMatch ? parseFloat(ratingMatch[1]) : null;
+        const platformAttr = /data-platform="([^"]+)"/i.exec(attributes);
+        const dataPlatform = platformAttr ? platformAttr[1].toLowerCase() : '';
         
-        if (text.includes('amazon') || url.includes('amazon.') || url.includes('amzn.to') || url.includes('amzn.in') || url.includes('link.amazon')) {
-          affiliates.amazon = { platform: "Amazon", url: url, rating: customRating || 4.8, reviews: 2450 };
-        } else if (text.includes('myntra') || url.includes('myntra.') || url.includes('myntr.it')) {
-          affiliates.myntra = { platform: "Myntra", url: url, rating: customRating || 4.7, reviews: 920 };
-        } else if (text.includes('meesho') || url.includes('meesho.')) {
-          affiliates.meesho = { platform: "Meesho", url: url, rating: customRating || 4.4, reviews: 3100 };
-        } else if (text.includes('shopsy') || url.includes('shopsy.')) {
+        if (dataPlatform === 'shopsy' || text.includes('shopsy') || url.includes('shopsy')) {
           affiliates.shopsy = { platform: "Shopsy", url: url, rating: customRating || 4.5, reviews: 1950 };
-        } else if (text.includes('flipkart') || url.includes('flipkart.') || url.includes('ekaro.in') || url.includes('fkrt.it')) {
+        } else if (dataPlatform === 'amazon' || text.includes('amazon') || url.includes('amazon.') || url.includes('amzn.to') || url.includes('amzn.in') || url.includes('link.amazon')) {
+          affiliates.amazon = { platform: "Amazon", url: url, rating: customRating || 4.8, reviews: 2450 };
+        } else if (dataPlatform === 'myntra' || text.includes('myntra') || url.includes('myntra.') || url.includes('myntr.it')) {
+          affiliates.myntra = { platform: "Myntra", url: url, rating: customRating || 4.7, reviews: 920 };
+        } else if (dataPlatform === 'meesho' || text.includes('meesho') || url.includes('meesho.')) {
+          affiliates.meesho = { platform: "Meesho", url: url, rating: customRating || 4.4, reviews: 3100 };
+        } else if (dataPlatform === 'flipkart' || text.includes('flipkart') || url.includes('flipkart.') || url.includes('fkrt.it')) {
           affiliates.flipkart = { platform: "Flipkart", url: url, rating: customRating || 4.6, reviews: 1820 };
+        } else if (url.includes('ekaro.in') || url.includes('earnkaro')) {
+          // If earnkaro link without platform: check text or assign
+          if (text.includes('shopsy')) {
+            affiliates.shopsy = { platform: "Shopsy", url: url, rating: customRating || 4.5, reviews: 1950 };
+          } else {
+            affiliates.flipkart = { platform: "Flipkart", url: url, rating: customRating || 4.6, reviews: 1820 };
+          }
         }
       }
 
