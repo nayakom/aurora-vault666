@@ -23,7 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick, onLogoClick }) => {
     { name: 'Men', items: ['Shirts', 'T-Shirts', 'Jeans', 'Footwear'] },
     { name: 'Gym & Sports', items: ['Men\'s Gym Wear', 'Women\'s Gym Wear', 'Equipments'] },
     { name: 'Accessories', items: ['Watches', 'Bags'] },
-    { name: 'Electronics', items: ['Laptops', 'PC', 'Keyboard', 'Mouse', 'Phones'] },
+    { name: 'Electronics', items: ['Laptops', 'PC', 'Keyboard', 'Mouse', 'TV', 'Phones', 'Smart Phones', 'Light', 'Mixer Grinder'] },
   ];
 
   useEffect(() => {
@@ -220,9 +220,9 @@ const Navbar: React.FC<NavbarProps> = ({ onHomeClick, onLogoClick }) => {
             </a>
 
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-              <div className="bg-[#030303]/95 backdrop-blur-md rounded-xl p-6 w-56 shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-[#8B5A2B]/20">
-                <ul className="flex flex-col gap-6">
-                  {['Laptops', 'PC', 'Keyboard', 'Mouse', 'TV', 'Phones', 'Smart Phones'].map((cat) => (
+              <div className="bg-[#030303]/95 backdrop-blur-md rounded-xl p-6 w-56 shadow-[0_10px_40px_rgba(0,0,0,0.5)] border border-[#8B5A2B]/20 max-h-[85vh] overflow-y-auto scrollbar-thin">
+                <ul className="flex flex-col gap-5">
+                  {['Laptops', 'PC', 'Keyboard', 'Mouse', 'TV', 'Phones', 'Smart Phones', 'Light', 'Mixer Grinder'].map((cat) => (
                     <li key={cat}>
                       <Link href={`/?category=${cat}`} scroll={false} className="text-[#808080] hover:text-[#8B5A2B] text-[15px] font-medium tracking-wide transition-colors block">
                         {cat}

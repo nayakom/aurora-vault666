@@ -15,7 +15,13 @@ import { motion, AnimatePresence } from "framer-motion";
 let isSpaInitialized = false;
 
 export default function Home() {
-  const [showMainSite, setShowMainSite] = useState(false);
+  const [showMainSite, setShowMainSite] = useState(() => {
+    if (typeof window !== "undefined") {
+      return document.documentElement.classList.contains("aurora-skip-intro") ||
+        sessionStorage.getItem("aurora_intro_completed") === "true";
+    }
+    return false;
+  });
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
 
@@ -88,62 +94,61 @@ export default function Home() {
 
   const handleIntroComplete = () => {
     sessionStorage.setItem("aurora_intro_completed", "true");
+    document.documentElement.classList.add("aurora-skip-intro");
     isSpaInitialized = true;
     setShowMainSite(true);
     // User wants to stay at the very top of the page (Hero Section) after the intro
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
-  if (!mounted) return <main className="min-h-screen bg-[#030303]" />; // Prevent hydration mismatch flash
-
   return (
-    <main className="min-h-screen bg-[#030303] text-[#e0e0e0] transition-colors duration-500 selection:bg-[#8B5A2B] selection:text-[#000]">
+    <main className="min-h-screen bg-[#030303] text-[#e0e0e0] selection:bg-[#8B5A2B] selection:text-[#000]">
+      {/* Intro Overlay: Fullscreen fixed overlay only rendered if intro has not been completed */}
       <AnimatePresence>
-        {!showMainSite ? (
+        {!showMainSite && (
           <motion.div
-            key="intro"
+            id="aurora-intro-overlay"
+            key="intro-overlay"
+            initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="fixed inset-0 z-[999]"
           >
             <AuroraIntro onComplete={handleIntroComplete} />
           </motion.div>
-        ) : (
-          <motion.div
-            key="main"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="relative"
-          >
-            <MouseGlow />
-            <IlluminatiEye />
-            {/* Foreground Content */}
-            <div className="relative z-10">
-              <Navbar 
-                onLogoClick={() => {
-                  try {
-                    sessionStorage.removeItem("aurora_intro_completed");
-                    sessionStorage.removeItem("aurora_return_to_vault");
-                  } catch (e) {}
-                  isSpaInitialized = false;
-                  window.scrollTo({ top: 0, behavior: "instant" });
-                  setShowMainSite(false);
-                }}
-                onHomeClick={() => { 
-                  window.scrollTo({ top: 0, behavior: 'smooth' }); 
-                }} 
-              />
-              <HeroSection />
-              <Suspense fallback={<div className="text-center py-20 text-[#D2B48C]">Loading Vault...</div>}>
-                <div id="vault" className="scroll-mt-20">
-                  <ProductGrid />
-                </div>
-              </Suspense>
-              <Footer />
-            </div>
-          </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Main Site: Always present in SSR HTML so mobile users never see an empty shell */}
+      <div className="relative">
+        <MouseGlow />
+        <IlluminatiEye />
+        {/* Foreground Content */}
+        <div className="relative z-10">
+          <Navbar 
+            onLogoClick={() => {
+              try {
+                sessionStorage.removeItem("aurora_intro_completed");
+                sessionStorage.removeItem("aurora_return_to_vault");
+                document.documentElement.classList.remove("aurora-skip-intro");
+              } catch (e) {}
+              isSpaInitialized = false;
+              window.scrollTo({ top: 0, behavior: "instant" });
+              setShowMainSite(false);
+            }}
+            onHomeClick={() => { 
+              window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            }} 
+          />
+          <HeroSection />
+          <Suspense fallback={<div className="text-center py-20 text-[#D2B48C]">Loading Vault...</div>}>
+            <div id="vault" className="scroll-mt-20">
+              <ProductGrid />
+            </div>
+          </Suspense>
+          <Footer />
+        </div>
+      </div>
     </main>
   );
 }

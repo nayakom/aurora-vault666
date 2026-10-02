@@ -21,6 +21,7 @@ export default function MouseGlow() {
     return (
         <div
             ref={glowRef}
+            className="hidden md:block"
             style={{
                 position: "fixed",
                 left: 0,

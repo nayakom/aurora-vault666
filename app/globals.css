@@ -31,7 +31,16 @@ body {
   overflow-x: hidden;
   background-color: var(--color-aurora-bg);
   color: var(--color-aurora-text);
-  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Smooth transition only after initial paint & mount */
+body.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Instant intro skip for returning visitors */
+html.aurora-skip-intro #aurora-intro-overlay {
+  display: none !important;
 }
 
 ::selection {
