@@ -92,6 +92,24 @@ export default function Home() {
     }
   }, []);
 
+  // Lock body scroll and touch swiping during intro so background content never scrolls or peeks through
+  useEffect(() => {
+    if (!showMainSite) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      document.body.style.touchAction = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
+  }, [showMainSite]);
+
   const handleIntroComplete = () => {
     sessionStorage.setItem("aurora_intro_completed", "true");
     document.documentElement.classList.add("aurora-skip-intro");
@@ -111,16 +129,16 @@ export default function Home() {
             key="intro-overlay"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-            className="fixed inset-0 z-[999]"
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className="fixed inset-0 z-[999] overflow-hidden overscroll-none"
           >
             <AuroraIntro onComplete={handleIntroComplete} />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Main Site: Always present in SSR HTML so mobile users never see an empty shell */}
-      <div className="relative">
+      {/* Main Site: Completely hidden and disabled while intro is active so vault never leaks or flickers */}
+      <div className={`relative ${!showMainSite ? 'opacity-0 pointer-events-none h-0 overflow-hidden select-none' : 'opacity-100 transition-opacity duration-500'}`}>
         <MouseGlow />
         <IlluminatiEye />
         {/* Foreground Content */}

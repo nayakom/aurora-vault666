@@ -68,22 +68,22 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
         }
     }, [showContent]);
 
-    const handleEnter = () => {
+    const [isEntering, setIsEntering] = useState(false);
 
+    const handleEnter = () => {
+        if (isEntering) return;
+        setIsEntering(true);
         setTransition(true);
 
         setTimeout(() => {
-
             console.log("Homepage Ready");
             if (onComplete) onComplete();
-
-        }, 1200);
-
+        }, 950);
     };
 
     return (
 
-        <section className={styles.intro}>
+        <section className={`${styles.intro} touch-none select-none overscroll-none`}>
 
             <AuroraBackground />
 
@@ -169,7 +169,7 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
                                 </motion.p>
 
                                 <motion.button
-                                    className="group relative inline-flex items-center justify-center gap-2 md:gap-4 px-6 md:px-10 py-3 md:py-4 bg-[#030303] text-[#D2B48C] border border-[#8B5A2B]/40 uppercase tracking-[4px] md:tracking-[6px] text-xs md:text-sm font-black transition-all duration-700 hover:bg-[#8B5A2B]/10 overflow-hidden mt-12 md:mt-16 w-[90%] md:w-auto mx-auto max-w-sm"
+                                    className="group relative inline-flex items-center justify-center gap-2 md:gap-4 px-6 md:px-10 py-3 md:py-4 bg-[#030303] text-[#D2B48C] border border-[#8B5A2B]/40 uppercase tracking-[4px] md:tracking-[6px] text-xs md:text-sm font-black transition-all duration-300 hover:bg-[#8B5A2B]/10 overflow-hidden mt-12 md:mt-16 w-[90%] md:w-auto mx-auto max-w-sm cursor-pointer touch-manipulation active:scale-95"
                                     initial={{
                                         opacity: 0,
                                         scale: .75,

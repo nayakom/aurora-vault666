@@ -12,32 +12,28 @@ export default function IntroTransition({
     return (
         <AnimatePresence>
             {active && (
-                <motion.div
-                    initial={{ 
-                        clipPath: "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)",
-                        WebkitClipPath: "polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%)",
-                        backgroundColor: "#8B5A2B"
-                    } as any}
-                    animate={{ 
-                        clipPath: "polygon(50% -150%, 250% 50%, 50% 250%, -150% 50%)",
-                        WebkitClipPath: "polygon(50% -150%, 250% 50%, 50% 250%, -150% 50%)",
-                        backgroundColor: "#030303"
-                    } as any}
-                    exit={{ opacity: 0 }}
-                    transition={{ 
-                        duration: 1.2, 
-                        ease: [0.76, 0, 0.24, 1] 
-                    }}
-                    className="fixed inset-0 z-[9999] pointer-events-none flex items-center justify-center"
-                >
-                    {/* Glowing Aura inside the expanding diamond */}
-                    <motion.div 
-                        className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,90,43,0.3)_0%,transparent_60%)]"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1.5 }}
-                        transition={{ duration: 1.2 }}
-                    />
-                </motion.div>
+                <div className="fixed inset-0 z-[9999] pointer-events-none flex items-center justify-center overflow-hidden">
+                    {/* GPU-accelerated Diamond expanding smoothly without polygon clip-path glitches */}
+                    <motion.div
+                        initial={{ 
+                            scale: 0,
+                            opacity: 0,
+                            rotate: 45
+                        }}
+                        animate={{ 
+                            scale: [0, 0.8, 4.5],
+                            opacity: [0.9, 1, 1]
+                        }}
+                        transition={{ 
+                            duration: 0.9, 
+                            ease: [0.76, 0, 0.24, 1] 
+                        }}
+                        className="w-[120vmax] h-[120vmax] bg-[#030303] border-4 border-[#8B5A2B] shadow-[0_0_120px_rgba(210,180,140,0.6)] flex items-center justify-center"
+                    >
+                        {/* Golden Illuminati glow aura inside expanding diamond */}
+                        <div className="w-full h-full bg-[radial-gradient(circle_at_center,rgba(139,90,43,0.45)_0%,rgba(3,3,3,0.95)_70%)]" />
+                    </motion.div>
+                </div>
             )}
         </AnimatePresence>
     );
