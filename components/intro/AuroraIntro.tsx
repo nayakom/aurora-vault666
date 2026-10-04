@@ -78,7 +78,7 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
         setTimeout(() => {
             console.log("Homepage Ready");
             if (onComplete) onComplete();
-        }, 950);
+        }, 800);
     };
 
     return (
@@ -109,13 +109,13 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
                     }}
 
                     animate={{
-                        opacity: 1,
-                        filter: "blur(0px)",
-                        scale: 1
+                        opacity: transition ? 0 : 1,
+                        filter: transition ? "blur(10px)" : "blur(0px)",
+                        scale: transition ? 0.95 : 1
                     }}
 
                     transition={{
-                        duration: 1.2
+                        duration: transition ? 0.35 : 1.2
                     }}
 
                 >

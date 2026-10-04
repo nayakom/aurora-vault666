@@ -115,8 +115,9 @@ export default function Home() {
     document.documentElement.classList.add("aurora-skip-intro");
     isSpaInitialized = true;
     setShowMainSite(true);
-    // User wants to stay at the very top of the page (Hero Section) after the intro
-    window.scrollTo({ top: 0, behavior: "instant" });
+    if (typeof window !== "undefined" && window.scrollY > 0) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
   };
 
   return (
@@ -129,16 +130,19 @@ export default function Home() {
             key="intro-overlay"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="fixed inset-0 z-[999] overflow-hidden overscroll-none"
+            transition={{ duration: 0.45, ease: "easeOut" }}
+            className="fixed inset-0 z-[999] overflow-hidden overscroll-none bg-[#030303]"
           >
             <AuroraIntro onComplete={handleIntroComplete} />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Main Site: Completely hidden and disabled while intro is active so vault never leaks or flickers */}
-      <div className={`relative ${!showMainSite ? 'opacity-0 pointer-events-none h-0 overflow-hidden select-none' : 'opacity-100 transition-opacity duration-500'}`}>
+      {/* Main Site: Seamlessly laid out underneath, perfectly zero-flicker reveal */}
+      <div 
+        aria-hidden={!showMainSite}
+        className={`relative ${!showMainSite ? 'pointer-events-none select-none' : ''}`}
+      >
         <MouseGlow />
         <IlluminatiEye />
         {/* Foreground Content */}
