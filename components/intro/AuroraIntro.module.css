@@ -53,9 +53,8 @@
 
 .title {
     position: relative;
-    font-size: clamp(72px, 10vw, 170px);
+    font-size: clamp(52px, 8.5vw, 150px);
     font-weight: 900;
-    letter-spacing: 24px;
     margin: 0;
     color: var(--color-aurora-gold);
     text-transform: uppercase;
@@ -65,6 +64,9 @@
         0 0 10px rgba(139, 90, 43, 0.2),
         0 0 40px rgba(139, 90, 43, 0.4),
         0 0 100px rgba(139, 90, 43, 0.1);
+}
+
+.titleFloating {
     animation:
         logoGlow 4s ease-in-out infinite,
         logoFloat 6s ease-in-out infinite;

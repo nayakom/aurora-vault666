@@ -8,7 +8,6 @@ import FloatingParticles from "./FloatingParticles";
 
 import styles from "./AuroraIntro.module.css";
 import MouseGlow from "./MouseGlow";
-import IntroTransition from "./IntroTransition";
 
 const LOGO = "AURORA";
 
@@ -69,16 +68,31 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
     }, [showContent]);
 
     const [isEntering, setIsEntering] = useState(false);
+    type TransitionStage = "idle" | "collapse" | "eye_blink" | "portal_zoom";
+    const [stage, setStage] = useState<TransitionStage>("idle");
+
+    const LOGO_LETTERS = ["A", "U", "R", "O", "R", "A"];
 
     const handleEnter = () => {
         if (isEntering) return;
         setIsEntering(true);
-        setTransition(true);
+        setStage("collapse");
 
+        // Step 2: Letters collapse into last "A" in the center (550ms)
+        setTimeout(() => {
+            setStage("eye_blink");
+        }, 550);
+
+        // Step 3: Illuminati Logo appears & eye blinks (600ms)
+        setTimeout(() => {
+            setStage("portal_zoom");
+        }, 1150);
+
+        // Step 4: Portal zoom into Hero section
         setTimeout(() => {
             console.log("Homepage Ready");
             if (onComplete) onComplete();
-        }, 800);
+        }, 1800);
     };
 
     return (
@@ -89,40 +103,179 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
 
             <MouseGlow />
 
-
             <div className={styles.overlay}></div>
 
-            <div className={styles.geometricContainer}>
+            {/* Background Geometric Triangle: gently fades out when entering */}
+            <motion.div 
+                className={styles.geometricContainer}
+                animate={{ opacity: stage === "idle" ? 0.4 : 0 }}
+                transition={{ duration: 0.3 }}
+            >
                 <div className={styles.triangle}></div>
-            </div>
+            </motion.div>
 
             <div className={styles.content}>
 
-                <motion.h1
+                {/* Main Logo / Letters & Illuminati Portal Container */}
+                <div className="relative flex items-center justify-center min-h-[160px] md:min-h-[220px]">
+                    
+                    {/* Aurora Individual Letters */}
+                    <div className={`relative flex items-center justify-center overflow-visible ${styles.title} ${stage === 'idle' ? styles.titleFloating : ''}`}>
+                        {LOGO_LETTERS.map((char, index) => {
+                            const isVisible = index < displayText.length;
+                            const isLastA = index === 5;
+                            const isCollapsing = stage !== "idle";
 
-                    className={styles.title}
+                            if (!isVisible) return null;
 
-                    initial={{
-                        opacity: 0,
-                        filter: "blur(30px)",
-                        scale: 1.15
-                    }}
+                            return (
+                                <motion.span
+                                    key={index}
+                                    initial={{
+                                        opacity: 0,
+                                        filter: "blur(20px)",
+                                        scale: 1.15
+                                    }}
+                                    animate={
+                                        isCollapsing
+                                            ? isLastA
+                                                ? {
+                                                    scale: stage === "collapse" ? [1, 1.25, 1] : 0.8,
+                                                    opacity: stage === "collapse" ? 1 : 0,
+                                                    filter: "drop-shadow(0 0 35px rgba(210,180,140,0.95))",
+                                                    transition: { duration: 0.5, ease: "easeInOut" }
+                                                }
+                                                : {
+                                                    width: 0,
+                                                    opacity: 0,
+                                                    scale: 0.2,
+                                                    x: 25,
+                                                    filter: "blur(8px)",
+                                                    paddingLeft: 0,
+                                                    paddingRight: 0,
+                                                    marginLeft: 0,
+                                                    marginRight: 0,
+                                                    transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] }
+                                                }
+                                            : {
+                                                opacity: 1,
+                                                filter: "blur(0px)",
+                                                scale: 1,
+                                                transition: { duration: 0.4 }
+                                            }
+                                    }
+                                    className="inline-flex items-center justify-center font-display font-black text-transparent bg-clip-text bg-gradient-to-b from-[#FFF2D6] via-[#D2B48C] to-[#8B5A2B] px-1 sm:px-2 md:px-3 select-none"
+                                >
+                                    {char}
+                                </motion.span>
+                            );
+                        })}
+                    </div>
 
-                    animate={{
-                        opacity: transition ? 0 : 1,
-                        filter: transition ? "blur(10px)" : "blur(0px)",
-                        scale: transition ? 0.95 : 1
-                    }}
+                    {/* Illuminati Pyramid Eye Logo (Stage: eye_blink and portal_zoom) */}
+                    <AnimatePresence>
+                        {(stage === "eye_blink" || stage === "portal_zoom") && (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.7 }}
+                                animate={
+                                    stage === "portal_zoom"
+                                        ? {
+                                            scale: 26,
+                                            opacity: [1, 1, 0.95],
+                                            transition: {
+                                                duration: 0.7,
+                                                ease: [0.76, 0, 0.24, 1]
+                                            }
+                                        }
+                                        : {
+                                            opacity: 1,
+                                            scale: 1,
+                                            transition: {
+                                                duration: 0.25,
+                                                ease: "easeOut"
+                                            }
+                                        }
+                                }
+                                style={{ willChange: "transform" }}
+                                className="absolute z-30 flex items-center justify-center pointer-events-none"
+                            >
+                                <div className="relative w-36 h-36 md:w-52 md:h-52 flex items-center justify-center">
+                                    {/* Golden Ambient Glow */}
+                                    <div className="absolute inset-0 bg-[#8B5A2B]/30 blur-2xl rounded-full" />
 
-                    transition={{
-                        duration: transition ? 0.35 : 1.2
-                    }}
+                                    <svg
+                                        viewBox="0 0 100 100"
+                                        fill="none"
+                                        className="w-full h-full text-[#D2B48C] filter drop-shadow-[0_0_30px_rgba(210,180,140,0.85)] relative z-10"
+                                    >
+                                        {/* Outer Occult Ring */}
+                                        <circle cx="50" cy="55" r="42" stroke="currentColor" strokeWidth="1.5" className="opacity-40" />
 
-                >
+                                        {/* Solid dark interior fill for the pyramid so it acts as the gateway */}
+                                        <polygon points="50,8 12,85 88,85" fill="#030303" />
 
-                    {displayText}
+                                        {/* Main Pyramid Triangle */}
+                                        <path d="M50 8 L12 85 L88 85 Z" stroke="#D2B48C" strokeWidth="3" strokeLinejoin="round" />
 
-                </motion.h1>
+                                        {/* Capstone Separation */}
+                                        <path d="M33 39 L67 39" stroke="#D2B48C" strokeWidth="2.5" strokeLinecap="round" />
+
+                                        {/* Animated Blinking Eye */}
+                                        <motion.g
+                                            style={{ transformOrigin: "50px 64px" }}
+                                            initial={{ scaleY: 1 }}
+                                            animate={{ scaleY: [1, 0.05, 1] }}
+                                            transition={{
+                                                duration: 0.26,
+                                                delay: 0.18,
+                                                ease: "easeInOut"
+                                            }}
+                                        >
+                                            {/* Eye Outline */}
+                                            <path d="M25 64 Q50 42 75 64 Q50 86 25 64 Z" stroke="#D2B48C" strokeWidth="2.5" fill="#030303" />
+
+                                            {/* Iris & Pupil */}
+                                            <circle cx="50" cy="64" r="7.5" stroke="#D2B48C" strokeWidth="2" fill="#8B5A2B" />
+                                            <circle cx="50" cy="64" r="3.5" fill="#FFF2D6" />
+                                        </motion.g>
+
+                                        {/* Golden Eye Flash Flare upon blink */}
+                                        <motion.circle
+                                            cx="50"
+                                            cy="64"
+                                            r="14"
+                                            fill="url(#eyeFlareGleam)"
+                                            initial={{ opacity: 0, scale: 0 }}
+                                            animate={{
+                                                opacity: [0, 1, 0],
+                                                scale: [0, 2.5, 0]
+                                            }}
+                                            transition={{
+                                                duration: 0.35,
+                                                delay: 0.22,
+                                                ease: "easeOut"
+                                            }}
+                                        />
+
+                                        {/* Mystical Rays emitting from capstone */}
+                                        <path d="M50 31 L50 14" stroke="#D2B48C" strokeWidth="2" strokeLinecap="round" className="opacity-80" />
+                                        <path d="M43 35 L35 22" stroke="#D2B48C" strokeWidth="2" strokeLinecap="round" className="opacity-80" />
+                                        <path d="M57 35 L65 22" stroke="#D2B48C" strokeWidth="2" strokeLinecap="round" className="opacity-80" />
+
+                                        <defs>
+                                            <radialGradient id="eyeFlareGleam" cx="50%" cy="50%" r="50%">
+                                                <stop offset="0%" stopColor="#FFF2D6" stopOpacity="1" />
+                                                <stop offset="50%" stopColor="#D2B48C" stopOpacity="0.8" />
+                                                <stop offset="100%" stopColor="#8B5A2B" stopOpacity="0" />
+                                            </radialGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                </div>
 
                 <AnimatePresence>
 
@@ -133,8 +286,12 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
                             <motion.div 
                                 className="flex flex-col items-center w-full"
                                 initial={{ opacity: 1 }}
-                                animate={{ opacity: transition ? 0 : 1, scale: transition ? 0.9 : 1 }}
-                                transition={{ duration: 0.3 }}
+                                animate={{ 
+                                    opacity: stage === "idle" ? 1 : 0, 
+                                    scale: stage === "idle" ? 1 : 0.95,
+                                    y: stage === "idle" ? 0 : 25
+                                }}
+                                transition={{ duration: 0.25 }}
                             >
 
                                 <motion.p
@@ -219,8 +376,6 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
                 </AnimatePresence>
 
             </div>
-
-            <IntroTransition active={transition} />
 
         </section>
 
