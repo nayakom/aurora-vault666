@@ -180,10 +180,11 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
                                 animate={
                                     stage === "portal_zoom"
                                         ? {
-                                            scale: 26,
-                                            opacity: [1, 1, 0.95],
+                                            scale: [1, 2, 4.5],
+                                            opacity: [1, 1, 0],
                                             transition: {
-                                                duration: 0.7,
+                                                duration: 0.65,
+                                                times: [0, 0.45, 1],
                                                 ease: [0.76, 0, 0.24, 1]
                                             }
                                         }
@@ -196,29 +197,39 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
                                             }
                                         }
                                 }
-                                style={{ willChange: "transform" }}
+                                style={{ willChange: "transform, opacity" }}
                                 className="absolute z-30 flex items-center justify-center pointer-events-none"
                             >
-                                <div className="relative w-36 h-36 md:w-52 md:h-52 flex items-center justify-center">
+                                <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 flex items-center justify-center">
                                     {/* Golden Ambient Glow */}
                                     <div className="absolute inset-0 bg-[#8B5A2B]/30 blur-2xl rounded-full" />
+
+                                    {/* Expanding Golden Portal Ring during zoom */}
+                                    {stage === "portal_zoom" && (
+                                        <motion.div
+                                            initial={{ scale: 0.6, opacity: 1 }}
+                                            animate={{ scale: 5, opacity: 0 }}
+                                            transition={{ duration: 0.65, ease: [0.76, 0, 0.24, 1] }}
+                                            className="absolute inset-0 rounded-full border-2 border-[#D2B48C] shadow-[0_0_60px_rgba(210,180,140,0.8)] pointer-events-none"
+                                        />
+                                    )}
 
                                     <svg
                                         viewBox="0 0 100 100"
                                         fill="none"
-                                        className="w-full h-full text-[#D2B48C] filter drop-shadow-[0_0_30px_rgba(210,180,140,0.85)] relative z-10"
+                                        className="w-full h-full text-[#D2B48C] filter drop-shadow-[0_0_20px_rgba(210,180,140,0.7)] relative z-10"
                                     >
                                         {/* Outer Occult Ring */}
                                         <circle cx="50" cy="55" r="42" stroke="currentColor" strokeWidth="1.5" className="opacity-40" />
 
-                                        {/* Solid dark interior fill for the pyramid so it acts as the gateway */}
+                                        {/* Solid dark interior fill for the pyramid */}
                                         <polygon points="50,8 12,85 88,85" fill="#030303" />
 
                                         {/* Main Pyramid Triangle */}
-                                        <path d="M50 8 L12 85 L88 85 Z" stroke="#D2B48C" strokeWidth="3" strokeLinejoin="round" />
+                                        <path d="M50 8 L12 85 L88 85 Z" stroke="#D2B48C" strokeWidth="2.5" strokeLinejoin="round" />
 
                                         {/* Capstone Separation */}
-                                        <path d="M33 39 L67 39" stroke="#D2B48C" strokeWidth="2.5" strokeLinecap="round" />
+                                        <path d="M33 39 L67 39" stroke="#D2B48C" strokeWidth="2" strokeLinecap="round" />
 
                                         {/* Animated Blinking Eye */}
                                         <motion.g
@@ -232,11 +243,11 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
                                             }}
                                         >
                                             {/* Eye Outline */}
-                                            <path d="M25 64 Q50 42 75 64 Q50 86 25 64 Z" stroke="#D2B48C" strokeWidth="2.5" fill="#030303" />
+                                            <path d="M25 64 Q50 42 75 64 Q50 86 25 64 Z" stroke="#D2B48C" strokeWidth="2" fill="#030303" />
 
                                             {/* Iris & Pupil */}
-                                            <circle cx="50" cy="64" r="7.5" stroke="#D2B48C" strokeWidth="2" fill="#8B5A2B" />
-                                            <circle cx="50" cy="64" r="3.5" fill="#FFF2D6" />
+                                            <circle cx="50" cy="64" r="7" stroke="#D2B48C" strokeWidth="1.5" fill="#8B5A2B" />
+                                            <circle cx="50" cy="64" r="3" fill="#FFF2D6" />
                                         </motion.g>
 
                                         {/* Golden Eye Flash Flare upon blink */}
@@ -258,9 +269,9 @@ export default function AuroraIntro({ onComplete }: AuroraIntroProps) {
                                         />
 
                                         {/* Mystical Rays emitting from capstone */}
-                                        <path d="M50 31 L50 14" stroke="#D2B48C" strokeWidth="2" strokeLinecap="round" className="opacity-80" />
-                                        <path d="M43 35 L35 22" stroke="#D2B48C" strokeWidth="2" strokeLinecap="round" className="opacity-80" />
-                                        <path d="M57 35 L65 22" stroke="#D2B48C" strokeWidth="2" strokeLinecap="round" className="opacity-80" />
+                                        <path d="M50 31 L50 14" stroke="#D2B48C" strokeWidth="1.5" strokeLinecap="round" className="opacity-80" />
+                                        <path d="M43 35 L35 22" stroke="#D2B48C" strokeWidth="1.5" strokeLinecap="round" className="opacity-80" />
+                                        <path d="M57 35 L65 22" stroke="#D2B48C" strokeWidth="1.5" strokeLinecap="round" className="opacity-80" />
 
                                         <defs>
                                             <radialGradient id="eyeFlareGleam" cx="50%" cy="50%" r="50%">
